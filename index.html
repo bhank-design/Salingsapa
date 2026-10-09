@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="id" class="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saling Sapa - Bebual Bersama</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { darkMode: 'class', theme: { extend: { colors: {
+    instagram: '#E1306C', twitter: '#1DA1F2', facebook: '#1877F2', linkedin: '#0A66C2'
+}}}}
+</script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+* { -webkit-tap-highlight-color: transparent; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; transition: background-color 0.4s, color 0.4s; position: relative; min-height: 100vh; background-color: #E8F4FD; color: #1E3A8A; }
+html.dark body { background-color: #15202B; color: #F7F9F9; }
+.cloud { position: fixed; border-radius: 50%; background: rgba(255,255,255,0.4); filter: blur(60px); pointer-events: none; z-index: 0; }
+html.dark .cloud { background: rgba(29, 155, 240, 0.05); }
+.cloud1 { width: 300px; height: 130px; top: 5%; left: -100px; }
+.cloud2 { width: 400px; height: 150px; top: 40%; right: -180px; }
+.cloud3 { width: 260px; height: 100px; bottom: 12%; left: -80px; }
+.fade-in { animation: fadeIn 0.3s ease-in-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.avatar-svg { background: linear-gradient(135deg, #BFDBFE, #93C5FD); display: flex; align-items: center; justify-content: center; color: #1E40AF; font-weight: bold; border-radius: 50%; flex-shrink: 0; overflow: hidden; }
+html.dark .avatar-svg { background: linear-gradient(135deg, #22303C, #2F3E4E); color: #8B98A5; }
+.avatar-svg svg { width: 55%; height: 55%; fill: currentColor; }
+.toggle-bg { width: 44px; height: 24px; border-radius: 12px; position: relative; transition: background-color 0.3s; cursor: pointer; }
+.toggle-dot { width: 20px; height: 20px; border-radius: 50%; background: white; position: absolute; top: 2px; left: 2px; transition: transform 0.3s; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+.toggle-on { background-color: #1D9BF0; }
+.toggle-on .toggle-dot { transform: translateX(20px); }
+.toggle-off { background-color: #64748B; }
+.bottom-nav-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 10px; border-radius: 12px; transition: all 0.2s; cursor: pointer; background: transparent; border: none; }
+.bottom-nav-btn.active { background: rgba(29, 155, 240, 0.15); }
+.bottom-nav-btn.active .nav-icon { color: #2563EB; }
+html.dark .bottom-nav-btn.active .nav-icon { color: #1D9BF0; }
+.nav-icon { color: #64748B; }
+html.dark .nav-icon { color: #8B98A5; }
+.nav-label { font-size: 10px; font-weight: 500; }
+.nav-icon, .nav-label { transition: color 0.2s; }
+.bottom-nav-btn.active .nav-label { color: #2563EB; }
+html.dark .bottom-nav-btn.active .nav-label { color: #1D9BF0; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.profile-tab { flex: 1; padding: 12px 0; text-align: center; font-size: 13px; font-weight: 600; color: #64748B; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; }
+.profile-tab.active { color: #2563EB; border-bottom-color: #2563EB; }
+html.dark .profile-tab { color: #8B98A5; }
+html.dark .profile-tab.active { color: #1D9BF0; border-bottom-color: #1D9BF0; }
+.post-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.post-grid-item { aspect-ratio: 1/1; background: linear-gradient(135deg, #BFDBFE, #93C5FD); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+html.dark .post-grid-item { background: linear-gradient(135deg, #22303C, #2F3E4E); }
+.post-grid-item svg { width: 30%; height: 30%; color: #3B82F6; opacity: 0.7; }
+html.dark .post-grid-item svg { color: #8B98A5; }
+.social-box { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: rgba(255,255,255,0.65); border: 1px solid #DBEAFE; cursor: pointer; transition: all 0.2s; }
+html.dark .social-box { background: #1E2732; border-color: #38444D; }
+.social-box .icon-wrap { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; }
+.card { background: rgba(255,255,255,0.75); backdrop-filter: blur(10px); border: 1px solid #DBEAFE; border-radius: 16px; }
+html.dark .card { background: #1E2732; border-color: #38444D; color: #F7F9F9; }
+.app-header { background: rgba(232, 244, 253, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid #DBEAFE; }
+html.dark .app-header { background: rgba(21, 32, 43, 0.95); border-color: #38444D; }
+.app-bottom-nav { background: rgba(232, 244, 253, 0.95); backdrop-filter: blur(12px); border-top: 1px solid #DBEAFE; }
+html.dark .app-bottom-nav { background: rgba(21, 32, 43, 0.98); border-color: #38444D; }
+.card-instagram { border-top: 3px solid #E1306C; }
+.card-twitter { border-top: 3px solid #1DA1F2; }
+.card-facebook { border-top: 3px solid #1877F2; }
+.card-linkedin { border-top: 3px solid #0A66C2; }
+.badge-founder { background: linear-gradient(135deg, #FBBF24, #F59E0B); color: white; font-size: 10px; font-weight: bold; padding: 2px 8px; border-radius: 999px; display: inline-flex; align-items: center; gap: 2px; }
+.badge-bot { background: #64748B; color: white; font-size: 10px; font-weight: bold; padding: 2px 8px; border-radius: 999px; }
+.filter-tab { flex-shrink: 0; padding: 8px 16px; border-radius: 999px; font-size: 12px; font-weight: 600; transition: all 0.2s; cursor: pointer; border: 1px solid transparent; }
+.filter-tab.active { background: linear-gradient(135deg, #60A5FA, #2563EB); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
+.filter-tab:not(.active) { background: rgba(255,255,255,0.7); border-color: #DBEAFE; color: #1E3A8A; }
+html.dark .filter-tab:not(.active) { background: #1E2732; border-color: #38444D; color: #F7F9F9; }
+.login-input { width: 100%; padding: 14px 16px; border-radius: 12px; font-size: 16px; background: #F0F9FF; color: #0F172A; border: 1px solid #DBEAFE; outline: none; transition: all 0.2s; }
+.login-input::placeholder { color: #94A3B8; }
+.login-input:focus { border-color: #3B82F6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+html.dark .login-input { background: #22303C; color: #F7F9F9; border-color: #38444D; }
+html.dark .login-input::placeholder { color: #8B98A5; }
+html.dark .login-input:focus { border-color: #1D9BF0; box-shadow: 0 0 0 3px rgba(29,155,240,0.2); }
+.login-label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #1E3A8A; }
+html.dark .login-label { color: #F7F9F9; }
+.login-card { background: #FFFFFF; border-radius: 24px; padding: 32px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); border: 1px solid #DBEAFE; }
+html.dark .login-card { background: #1E2732; border-color: #38444D; box-shadow: 0 10px 40px rgba(0,0,0,0.4); }
+.eye-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); padding: 4px; color: #3B82F6; cursor: pointer; background: transparent; border: none; }
+html.dark .eye-btn { color: #1D9BF0; }
+.tab-auth { flex: 1; text-align: center; padding: 12px 0; font-weight: 600; cursor: pointer; color: #64748B; border-bottom: 2px solid transparent; transition: all 0.2s; font-size: 14px; }
+.tab-auth.active { color: #2563EB; border-bottom-color: #2563EB; }
+html.dark .tab-auth { color: #8B98A5; }
+html.dark .tab-auth.active { color: #1D9BF0; border-bottom-color: #1D9BF0; }
+html.dark [style*="color:#1E3A8A"], html.dark [style*="color:#0C4A6E"], html.dark [style*="color:#475569"], html.dark [style*="color:#64748B"] { color: #F7F9F9 !important; }
+html.dark [style*="color:#94A3B8"] { color: #8B98A5 !important; }
+.clickable-name { cursor: pointer; }
+.clickable-name:hover { text-decoration: underline; }
+.btn-follow { padding: 8px 20px; border-radius: 999px; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.2s; border: none; }
+.btn-follow:not(.following) { background: linear-gradient(135deg, #60A5FA, #2563EB); color: white; }
+.btn-follow.following { background: #DBEAFE; color: #1E40AF; }
+html.dark .btn-follow.following { background: #22303C; color: #F7F9F9; }
+.like-btn.liked svg { color: #EF4444; fill: #EF4444; }
+.comment-input-row { display: none; margin-top: 8px; }
+.comment-input-row.show { display: flex; gap: 8px; }
+.comment-item { padding: 8px 10px; border-radius: 10px; background: rgba(37,99,235,0.06); margin-top: 6px; }
+html.dark .comment-item { background: rgba(29,155,240,0.08); }
+.footer-copyright { text-align: center; padding: 20px 16px; opacity: 0.7; font-size: 11px; line-height: 1.6; }
+.spinner { width: 40px; height: 40px; border: 4px solid rgba(37,99,235,0.2); border-top-color: #2563EB; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="cloud cloud1"></div>
+<div class="cloud cloud2"></div>
+<div class="cloud cloud3"></div>
+
+<!-- LOADING SCREEN -->
+<div id="loading-screen" class="fixed inset-0 z-[200] flex items-center justify-center" style="background:#E8F4FD;">
+    <div class="text-center">
+        <div class="w-20 h-20 mx-auto mb-4">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs><linearGradient id="lgLoad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#60A5FA"/><stop offset="100%" style="stop-color:#2563EB"/></linearGradient></defs>
+                <circle cx="50" cy="50" r="48" fill="url(#lgLoad)"/>
+                <text x="50" y="68" font-family="Arial, sans-serif" font-size="42" font-weight="900" fill="white" text-anchor="middle">A</text>
+                <text x="70" y="42" font-family="Arial, sans-serif" font-size="22" font-weight="900" fill="#FCD34D" text-anchor="middle">2</text>
+            </svg>
+        </div>
+        <div class="spinner"></div>
+        <p class="text-sm mt-4" style="color:#2563EB;">Memuat Saling Sapa...</p>
+    </div>
+</div>
+
+<!-- LOGIN -->
+<div id="login-page" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4" style="background:#E8F4FD;">
+    <div class="w-full max-w-sm login-card relative z-10">
+        <div class="text-center mb-6">
+            <div class="w-20 h-20 mx-auto mb-4">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs><linearGradient id="logoA" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#60A5FA"/><stop offset="100%" style="stop-color:#2563EB"/></linearGradient></defs>
+                    <circle cx="50" cy="50" r="48" fill="url(#logoA)"/>
+                    <circle cx="50" cy="50" r="48" fill="none" stroke="#FCD34D" stroke-width="1.5" opacity="0.7"/>
+                    <text x="50" y="68" font-family="Arial, sans-serif" font-size="42" font-weight="900" fill="white" text-anchor="middle">A</text>
+                    <text x="70" y="42" font-family="Arial, sans-serif" font-size="22" font-weight="900" fill="#FCD34D" text-anchor="middle">2</text>
+                </svg>
+            </div>
+            <h1 class="text-3xl font-bold" style="color:#1E3A8A;">Saling Sapa</h1>
+            <p class="text-sm italic mt-1" style="color:#2563EB;">Bebual Bersama</p>
+        </div>
+        <div class="flex border-b mb-5" style="border-color:#DBEAFE;">
+            <div id="tab-login" class="tab-auth active" onclick="switchAuthTab('login')">Masuk</div>
+            <div id="tab-register" class="tab-auth" onclick="switchAuthTab('register')">Daftar</div>
+        </div>
+        <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4">
+            <div><label class="login-label">Email</label><input type="email" id="login-email" required class="login-input" placeholder="email@contoh.com"></div>
+            <div>
+                <label class="login-label">Password</label>
+                <div class="relative">
+                    <input type="password" id="login-password" required class="login-input" placeholder="Password Anda">
+                    <button type="button" onclick="toggleEye('login-password','eye-login')" class="eye-btn"><i data-lucide="eye" id="eye-login" class="w-5 h-5"></i></button>
+                </div>
+            </div>
+            <div id="login-error" class="text-red-500 text-sm hidden text-center font-medium"></div>
+            <button type="submit" id="login-btn" class="w-full py-3.5 rounded-xl font-semibold shadow-lg text-white" style="background: linear-gradient(135deg, #60A5FA, #2563EB);">Masuk</button>
+            <button type="button" onclick="showForgotPassword()" class="w-full text-center text-sm font-medium" style="color:#2563EB;">Lupa Password?</button>
+        </form>
+        <form id="form-register" class="hidden space-y-4" onsubmit="handleRegister(event)">
+            <div><label class="login-label">Username</label><input type="text" id="reg-username" required class="login-input" placeholder="username unik"></div>
+            <div><label class="login-label">Email</label><input type="email" id="reg-email" required class="login-input" placeholder="email@contoh.com"></div>
+            <div>
+                <label class="login-label">Password (min. 6 karakter)</label>
+                <div class="relative">
+                    <input type="password" id="reg-password" required minlength="6" class="login-input" placeholder="Buat password">
+                    <button type="button" onclick="toggleEye('reg-password','eye-reg')" class="eye-btn"><i data-lucide="eye" id="eye-reg" class="w-5 h-5"></i></button>
+                </div>
+            </div>
+            <div id="register-error" class="text-red-500 text-sm hidden text-center font-medium"></div>
+            <button type="submit" id="register-btn" class="w-full py-3.5 rounded-xl font-semibold shadow-lg text-white" style="background: linear-gradient(135deg, #34D399, #059669);">Daftar Sekarang</button>
+            <p class="text-xs text-center" style="color:#64748B;">Dengan mendaftar, Anda setuju dengan aturan komunitas Saling Sapa.</p>
+        </form>
+    </div>
+</div>
+
+<!-- FORGOT PASSWORD -->
+<div id="forgot-password-modal" class="fixed inset-0 z-[110] bg-black/60 hidden items-center justify-center p-4">
+    <div class="card w-full max-w-sm p-6">
+        <h3 class="font-bold mb-2" style="color:#1E3A8A;">Lupa Password?</h3>
+        <p class="text-sm mb-4" style="opacity:0.75;">Masukkan email Anda, kami akan kirim link untuk reset password.</p>
+        <input type="email" id="forgot-email" class="login-input mb-3" placeholder="email@contoh.com">
+        <div id="forgot-msg" class="text-sm hidden mb-3 text-center"></div>
+        <div class="flex gap-2">
+            <button onclick="closeForgotPassword()" class="flex-1 py-2.5 rounded-xl font-medium" style="background:#DBEAFE; color:#1E40AF;">Batal</button>
+            <button onclick="sendResetEmail()" class="flex-1 py-2.5 rounded-xl font-semibold text-white" style="background: linear-gradient(135deg, #60A5FA, #2563EB);">Kirim</button>
+        </div>
+    </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="main-app" class="hidden relative z-10 flex flex-col min-h-screen">
+
+<header class="sticky top-0 z-40 app-header">
+    <div class="max-w-2xl mx-auto flex justify-between items-center px-4 py-3">
+        <div class="flex items-center gap-2.5 cursor-pointer" onclick="showPage('home')">
+            <div class="w-9 h-9">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs><linearGradient id="logoH" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#60A5FA"/><stop offset="100%" style="stop-color:#2563EB"/></linearGradient></defs>
+                    <circle cx="50" cy="50" r="48" fill="url(#logoH)"/>
+                    <text x="50" y="68" font-family="Arial, sans-serif" font-size="42" font-weight="900" fill="white" text-anchor="middle">A</text>
+                    <text x="70" y="42" font-family="Arial, sans-serif" font-size="22" font-weight="900" fill="#FCD34D" text-anchor="middle">2</text>
+                </svg>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg leading-tight" style="color:#1E3A8A;">Saling Sapa</h1>
+                <p class="text-[10px] italic" style="color:#2563EB;">Bebual Bersama</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <button onclick="openAccountSwitcher()" class="p-2.5 rounded-full" style="background:#DBEAFE; color:#1E3A8A;" title="Ganti Akun">
+                <i data-lucide="user-plus" class="w-5 h-5"></i>
+            </button>
+            <button onclick="showPage('settings')" class="p-2.5 rounded-full" style="background:#DBEAFE; color:#1E3A8A;">
+                <i data-lucide="settings" class="w-5 h-5"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<main class="flex-1 max-w-2xl w-full mx-auto pb-24">
+
+<!-- HOME -->
+<div id="page-home" class="page">
+    <div class="sticky top-[60px] z-30 px-4 py-3" style="background: rgba(232,244,253,0.9); backdrop-filter: blur(8px);">
+        <div class="flex gap-2 overflow-x-auto no-scrollbar">
+            <button onclick="filterFeed('all', this)" class="filter-tab active">✨ Semua</button>
+            <button onclick="filterFeed('instagram', this)" class="filter-tab">📷 Instagram</button>
+            <button onclick="filterFeed('twitter', this)" class="filter-tab">🐦 Twitter</button>
+            <button onclick="filterFeed('facebook', this)" class="filter-tab">📘 Facebook</button>
+            <button onclick="filterFeed('linkedin', this)" class="filter-tab">💼 LinkedIn</button>
+        </div>
+    </div>
+    <div id="feed-container" class="px-3 space-y-3">
+        <div class="text-center py-8"><div class="spinner"></div></div>
+    </div>
+    <div class="footer-copyright">Saling Sapa<br>Shank Anggara From Ulumonggo 2026</div>
+</div>
+
+<!-- SEARCH -->
+<div id="page-search" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="showPage('home')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg">Cari</h2>
+    </div>
+    <div class="relative mb-6">
+        <i data-lucide="search" class="absolute left-4 top-3.5 w-5 h-5" style="color:#2563EB;"></i>
+        <input type="text" id="search-input" oninput="performSearch()" placeholder="Ketik nama atau #tagar..." class="login-input" style="padding-left: 48px;">
+    </div>
+    <div id="search-results">
+        <h3 class="text-xs font-bold uppercase mb-3" style="color:#2563EB;">👥 Saran Untuk Anda</h3>
+        <div id="suggested-users" class="space-y-2"></div>
+    </div>
+    <div class="footer-copyright">Saling Sapa<br>Shank Anggara From Ulumonggo 2026</div>
+</div>
+
+<!-- NOTIF -->
+<div id="page-notif" class="page hidden px-4 py-4">
+    <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+            <button onclick="showPage('home')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+            <h2 class="font-bold text-lg">Notifikasi</h2>
+        </div>
+    </div>
+    <div id="notif-container" class="space-y-2"></div>
+    <div class="footer-copyright">Saling Sapa<br>Shank Anggara From Ulumonggo 2026</div>
+</div>
+
+<!-- PROFILE SENDIRI -->
+<div id="page-profile" class="page hidden">
+    <div class="flex items-center gap-2 px-4 py-3">
+        <button onclick="showPage('home')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg" id="profile-username-header">@username</h2>
+    </div>
+    <div class="px-4">
+        <div class="card p-5 fade-in">
+            <div class="flex justify-center mb-4">
+                <div id="profile-avatar" class="w-28 h-28 rounded-full avatar-svg" style="box-shadow: 0 0 0 3px #3B82F6;">
+                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                </div>
+            </div>
+            <div class="text-center mb-3">
+                <h2 class="text-xl font-bold flex items-center justify-center gap-1.5 flex-wrap">
+                    <span id="profile-name">Nama</span>
+                    <span id="profile-check"></span>
+                </h2>
+                <p id="profile-subtitle" class="text-sm font-medium mt-0.5" style="color:#2563EB; display:none;">Founder Saling Sapa</p>
+                <p id="profile-bio-text" class="text-sm mt-1.5" style="opacity:0.85;">Bio pengguna</p>
+                <p class="text-xs mt-1 flex items-center justify-center gap-1" style="color:#2563EB;"><i data-lucide="map-pin" class="w-3 h-3"></i><span id="profile-city">Kota</span></p>
+            </div>
+            <div class="flex justify-around py-3 border-y" style="border-color:#DBEAFE;">
+                <div class="text-center"><p class="font-bold text-lg" id="stat-posts">0</p><p class="text-xs" style="opacity:0.75;">Postingan</p></div>
+                <div class="text-center cursor-pointer" onclick="openFollowList('my', 'followers')"><p class="font-bold text-lg" id="stat-followers">0</p><p class="text-xs" style="opacity:0.75;">Pengikut</p></div>
+                <div class="text-center cursor-pointer" onclick="openFollowList('my', 'following')"><p class="font-bold text-lg" id="stat-following">0</p><p class="text-xs" style="opacity:0.75;">Mengikuti</p></div>
+            </div>
+            <div class="flex gap-2 mt-4">
+                <button onclick="showPage('edit-profile')" class="flex-1 py-2.5 rounded-xl font-semibold text-sm text-white" style="background: linear-gradient(135deg, #60A5FA, #2563EB);">Edit Profil</button>
+                <button onclick="shareProfile()" class="flex-1 py-2.5 rounded-xl font-semibold text-sm" style="background:#DBEAFE; color:#1E40AF;">Bagikan</button>
+            </div>
+        </div>
+        <div class="card p-4 mt-3">
+            <h3 class="text-xs font-bold mb-3 flex items-center gap-1.5"><i data-lucide="link" class="w-3.5 h-3.5"></i> SOSIAL MEDIA</h3>
+            <div class="grid grid-cols-2 gap-2">
+                <div class="social-box" onclick="openSocial('ig')"><div class="icon-wrap" style="background:#E1306C;"><i data-lucide="instagram" class="w-4 h-4"></i></div><div class="flex-1 min-w-0"><p class="text-[10px] font-bold uppercase" style="color:#E1306C;">Instagram</p><p class="text-xs truncate" id="social-ig-val" style="opacity:0.75;">Belum diisi</p></div></div>
+                <div class="social-box" onclick="openSocial('tw')"><div class="icon-wrap" style="background:#1DA1F2;"><i data-lucide="twitter" class="w-4 h-4"></i></div><div class="flex-1 min-w-0"><p class="text-[10px] font-bold uppercase" style="color:#1DA1F2;">Twitter</p><p class="text-xs truncate" id="social-tw-val" style="opacity:0.75;">Belum diisi</p></div></div>
+                <div class="social-box" onclick="openSocial('fb')"><div class="icon-wrap" style="background:#1877F2;"><i data-lucide="facebook" class="w-4 h-4"></i></div><div class="flex-1 min-w-0"><p class="text-[10px] font-bold uppercase" style="color:#1877F2;">Facebook</p><p class="text-xs truncate" id="social-fb-val" style="opacity:0.75;">Belum diisi</p></div></div>
+                <div class="social-box" onclick="openSocial('li')"><div class="icon-wrap" style="background:#0A66C2;"><i data-lucide="linkedin" class="w-4 h-4"></i></div><div class="flex-1 min-w-0"><p class="text-[10px] font-bold uppercase" style="color:#0A66C2;">LinkedIn</p><p class="text-xs truncate" id="social-li-val" style="opacity:0.75;">Belum diisi</p></div></div>
+            </div>
+        </div>
+    </div>
+    <div class="flex border-b mt-4" style="border-color:#DBEAFE;">
+        <div class="profile-tab active" onclick="switchProfileTab('my','foto', this)"><i data-lucide="grid-3x3" class="w-4 h-4 inline-block"></i> Foto</div>
+        <div class="profile-tab" onclick="switchProfileTab('my','statistik', this)"><i data-lucide="bar-chart-3" class="w-4 h-4 inline-block"></i> Statistik</div>
+        <div class="profile-tab" onclick="switchProfileTab('my','video', this)"><i data-lucide="video" class="w-4 h-4 inline-block"></i> Video</div>
+    </div>
+    <div id="tab-content-my" class="p-1">
+        <div id="tab-my-foto" class="post-grid">
+            <div class="post-grid-item"><i data-lucide="image"></i></div>
+            <div class="post-grid-item"><i data-lucide="image"></i></div>
+        </div>
+        <div id="tab-my-statistik" class="hidden p-3 space-y-3">
+            <div class="grid grid-cols-2 gap-3">
+                <div class="card p-3"><p class="text-xs" style="opacity:0.75;">Total Suka</p><p class="text-2xl font-bold" style="color:#2563EB;" id="my-likes">0</p></div>
+                <div class="card p-3"><p class="text-xs" style="opacity:0.75;">Komentar</p><p class="text-2xl font-bold" style="color:#2563EB;" id="my-comments">0</p></div>
+                <div class="card p-3"><p class="text-xs" style="opacity:0.75;">Jangkauan</p><p class="text-2xl font-bold" style="color:#2563EB;">0</p></div>
+                <div class="card p-3"><p class="text-xs" style="opacity:0.75;">Bagikan</p><p class="text-2xl font-bold" style="color:#2563EB;">0</p></div>
+            </div>
+        </div>
+        <div id="tab-my-video" class="hidden"><div class="text-center py-16"><i data-lucide="video" class="w-12 h-12 mx-auto mb-3" style="opacity:0.5;"></i><p class="text-sm" style="opacity:0.75;">Belum ada video</p></div></div>
+    </div>
+    <div class="footer-copyright">Saling Sapa<br>Shank Anggara From Ulumonggo 2026</div>
+</div>
+
+<!-- PROFILE USER LAIN -->
+<div id="page-other-profile" class="page hidden">
+    <div class="flex items-center gap-2 px-4 py-3">
+        <button onclick="backFromOtherProfile()" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg" id="other-profile-username-header">@username</h2>
+    </div>
+    <div class="px-4">
+        <div class="card p-5 fade-in">
+            <div class="flex justify-center mb-4">
+                <div id="other-profile-avatar" class="w-28 h-28 rounded-full avatar-svg" style="box-shadow: 0 0 0 3px #3B82F6;">
+                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                </div>
+            </div>
+            <div class="text-center mb-3">
+                <h2 class="text-xl font-bold flex items-center justify-center gap-1.5 flex-wrap">
+                    <span id="other-profile-name">Nama</span>
+                    <span id="other-profile-check"></span>
+                </h2>
+                <p id="other-profile-subtitle" class="text-sm font-medium mt-0.5" style="color:#2563EB; display:none;">Founder Saling Sapa</p>
+                <p id="other-profile-bio" class="text-sm mt-1.5" style="opacity:0.85;">Bio pengguna</p>
+                <p class="text-xs mt-1 flex items-center justify-center gap-1" style="color:#2563EB;"><i data-lucide="map-pin" class="w-3 h-3"></i><span id="other-profile-city">Kota</span></p>
+            </div>
+            <div class="flex justify-around py-3 border-y" style="border-color:#DBEAFE;">
+                <div class="text-center"><p class="font-bold text-lg" id="other-stat-posts">0</p><p class="text-xs" style="opacity:0.75;">Postingan</p></div>
+                <div class="text-center cursor-pointer" onclick="openFollowList('other', 'followers')"><p class="font-bold text-lg" id="other-stat-followers">0</p><p class="text-xs" style="opacity:0.75;">Pengikut</p></div>
+                <div class="text-center cursor-pointer" onclick="openFollowList('other', 'following')"><p class="font-bold text-lg" id="other-stat-following">0</p><p class="text-xs" style="opacity:0.75;">Mengikuti</p></div>
+            </div>
+            <div class="flex gap-2 mt-4">
+                <button id="follow-btn" onclick="toggleFollow()" class="flex-1 btn-follow">Follow</button>
+                <button onclick="alert('Fitur pesan akan segera hadir.')" class="flex-1 py-2.5 rounded-xl font-semibold text-sm" style="background:#DBEAFE; color:#1E40AF;">Kirim Pesan</button>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">Saling Sapa<br>Shank Anggara From Ulumonggo 2026</div>
+</div>
+
+<!-- FOLLOW LIST -->
+<div id="page-follow-list" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="backFromFollowList()" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg" id="follow-list-title">Pengikut</h2>
+    </div>
+    <div id="follow-list-content" class="space-y-2"></div>
+    <div class="footer-copyright">Saling Sapa<br>Shank Anggara From Ulumonggo 2026</div>
+</div>
+
+<!-- EDIT PROFILE -->
+<div id="page-edit-profile" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="showPage('profile')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg">Edit Profil</h2>
+    </div>
+    <div class="card p-5 mb-3">
+        <div class="space-y-3">
+            <div><label class="login-label">Nama Tampilan</label><input type="text" id="edit-name" class="login-input"></div>
+            <div><label class="login-label">Bio</label><textarea id="edit-bio" rows="3" class="login-input" style="resize:none;"></textarea></div>
+            <div><label class="login-label">Kota</label><input type="text" id="edit-city" class="login-input"></div>
+        </div>
+    </div>
+    <div class="card p-5 mb-3">
+        <h3 class="text-xs font-bold mb-3">SOSIAL MEDIA</h3>
+        <div class="space-y-3">
+            <div><label class="block text-xs font-semibold mb-1" style="color:#E1306C;">📷 Instagram</label><input type="text" id="edit-ig" placeholder="@username" class="login-input"></div>
+            <div><label class="block text-xs font-semibold mb-1" style="color:#1DA1F2;">🐦 Twitter</label><input type="text" id="edit-tw" placeholder="@username" class="login-input"></div>
+            <div><label class="block text-xs font-semibold mb-1" style="color:#1877F2;">📘 Facebook</label><input type="text" id="edit-fb" placeholder="Nama profil" class="login-input"></div>
+            <div><label class="block text-xs font-semibold mb-1" style="color:#0A66C2;">💼 LinkedIn</label><input type="text" id="edit-li" placeholder="Nama profil" class="login-input"></div>
+        </div>
+    </div>
+    <button onclick="saveProfile()" class="w-full py-3 rounded-xl font-semibold text-white" style="background: linear-gradient(135deg, #60A5FA, #2563EB);">Simpan Perubahan</button>
+    <div class="footer-copyright">Saling Sapa<br>Shank Anggara From Ulumonggo 2026</div>
+</div>
+
+<!-- PUSAT AKUN -->
+<div id="page-account" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="showPage('settings')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg">Pusat Akun</h2>
+    </div>
+    <div class="card overflow-hidden mb-3">
+        <div class="p-4 border-b" style="border-color:#DBEAFE;"><p class="text-xs font-semibold" style="color:#2563EB;">USERNAME</p><p class="font-medium" id="acc-username">-</p></div>
+        <div class="p-4 border-b" style="border-color:#DBEAFE;"><p class="text-xs font-semibold" style="color:#2563EB;">EMAIL</p><p class="font-medium" id="acc-email">-</p></div>
+        <div class="p-4 border-b" style="border-color:#DBEAFE;"><p class="text-xs font-semibold" style="color:#2563EB;">KOTA</p><p class="font-medium" id="acc-city">-</p></div>
+        <div class="p-4"><p class="text-xs font-semibold" style="color:#2563EB;">TANGGAL BERGABUNG</p><p class="font-medium" id="acc-joined">-</p></div>
+    </div>
+    <button onclick="showForgotPassword()" class="w-full p-4 card font-semibold flex items-center justify-center gap-2" style="color:#2563EB;"><i data-lucide="key" class="w-5 h-5"></i> Ganti Sandi (Kirim Link Reset)</button>
+    <div class="footer-copyright">Saling Sapa<br>Shank Anggara From Ulumonggo 2026</div>
+</div>
+
+<!-- KEAMANAN -->
+<div id="page-security" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="showPage('settings')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg">Keamanan</h2>
+    </div>
+    <div class="card overflow-hidden">
+        <div class="p-4 border-b flex items-center gap-3" style="border-color:#DBEAFE;"><i data-lucide="lock" class="w-5 h-5" style="color:#2563EB;"></i><div class="flex-1"><p class="font-semibold text-sm">Kata Sandi</p><p class="text-xs" style="opacity:0.75;">Kelola via Firebase</p></div><button onclick="showForgotPassword()" class="text-xs font-semibold" style="color:#2563EB;">Reset</button></div>
+        <div class="p-4 border-b flex items-center gap-3" style="border-color:#DBEAFE;"><i data-lucide="smartphone" class="w-5 h-5" style="color:#2563EB;"></i><div class="flex-1"><p class="font-semibold text-sm">Verifikasi Email</p><p class="text-xs" style="opacity:0.75;">Tidak wajib</p></div></div>
+        <div class="p-4 flex items-center gap-3"><i data-lucide="monitor" class="w-5 h-5" style="color:#2563EB;"></i><div class="flex-1"><p class="font-semibold text-sm">Aktivitas Akun</p><p class="text-xs" style="opacity:0.75;">Dikelola Firebase</p></div></div>
+    </div>
+    <div class="footer-copyright">Saling Sapa<br>Shank Anggara From Ulumonggo 2026</div>
+</div>
+
+<!-- VERIFIKASI -->
+<div id="page-verify" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="showPage('settings')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg">Ajukan Verifikasi</h2>
+    </div>
+    <div class="card p-5 mb-3">
+        <ul class="space-y-2 text-sm mb-4">
+            <li class="flex gap-2"><span style="color:#2563EB;">✓</span> Akun berusia minimal 30 hari.</li>
+            <li class="flex gap-2"><span style="color:#2563EB;">✓</span> Memiliki minimal 100 pengikut.</li>
+            <li class="flex gap-2"><span style="color:#2563EB;">✓</span> Aktif memposting minimal 1 konten/minggu.</li>
+            <li class="flex gap-2"><span style="color:#2563EB;">✓</span> Tidak melanggar aturan komunitas.</li>
+        </ul>
+        <div id="verify-status-box" class="p-3 rounded-xl text-sm font-medium text-center mb-4"></div>
+        <textarea id="verify-message" rows="3" placeholder="Tulis alasan Anda ingin diverifikasi..." class="login-input mb-3" style="resize:none;"></textarea>
+        <button onclick="submitVerification()" class="w-full py-3 rounded-xl font-semibold text-white" style="background: linear-gradient(135deg, #60A5FA, #2563EB);">Ajukan Sekarang</button>
+    </div>
+    <div class="footer-copyright">Saling Sapa<br>Shank Anggara From Ulumonggo 2026</div>
+</div>
+
+<!-- ABOUT -->
+<div id="page-about" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="showPage('settings')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg">Tentang</h2>
+    </div>
+    <div class="card p-6 text-center">
+        <h2 class="text-2xl font-bold">Saling Sapa</h2>
+        <p class="text-sm" style="opacity:0.75;">Versi 5.4 • Firebase Server</p>
+        <div class="rounded-2xl p-5 my-5" style="background: rgba(37,99,235,0.08);">
+            <p class="font-bold mb-2" style="color:#2563EB;">Menyapa Bebual Bersama</p>
+            <p class="text-sm mb-4">Aplikasi sosial untuk kumpul, ngobrol, dan berbagi bareng teman-teman.</p>
+            <div class="text-center text-sm space-y-1">
+                <p>✨ <b>Real-time sync</b></p>
+                <p>🌐 Server: <b>Online (Firebase)</b></p>
+            </div>
+        </div>
+        <div class="border-t pt-5" style="border-color:#DBEAFE;">
+            <p class="font-bold mb-3" style="color:#F59E0B;">👑 Founder</p>
+            <p class="font-bold text-lg mb-2">Shank Anggara From Ulumonggo</p>
+            <p class="text-sm mb-1">📧 anggishankjebone@gmail.com</p>
+        </div>
+        <div class="border-t mt-5 pt-5" style="border-color:#DBEAFE;">
+            <p class="text-xs" style="opacity:0.7;">© 2026 Shank Anggara From Ulumonggo</p>
+            <p class="text-xs" style="opacity:0.7;">All Rights Reserved</p>
+        </div>
+    </div>
+</div>
+
+<!-- FOUNDER PAGES -->
+<div id="page-verify-users" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="showPage('settings')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg">Verifikasi User 👑</h2>
+    </div>
+    <div id="verify-users-list" class="space-y-2"></div>
+</div>
+
+<div id="page-manage-users" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="showPage('settings')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg">Kelola Pengguna 👑</h2>
+    </div>
+    <div id="manage-users-list" class="space-y-2"></div>
+</div>
+
+<div id="page-statistics" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="showPage('settings')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg">Statistik 👑</h2>
+    </div>
+    <div id="statistics-content"></div>
+</div>
+
+<!-- SETTINGS -->
+<div id="page-settings" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="showPage('home')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg">Pengaturan</h2>
+    </div>
+    <div class="card p-4 mb-4 flex items-center gap-3">
+        <div class="w-14 h-14 rounded-full avatar-svg"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
+        <div class="flex-1"><h3 class="font-bold" id="settings-name">User</h3><p class="text-xs" style="color:#2563EB;" id="settings-sub">@user</p></div>
+        <button onclick="showPage('profile')" class="text-xs font-semibold" style="color:#2563EB;">Lihat Profil</button>
+    </div>
+    <div class="card overflow-hidden mb-3">
+        <button onclick="showPage('edit-profile')" class="w-full flex items-center gap-3 p-4 border-b" style="border-color:#DBEAFE;"><i data-lucide="user" class="w-5 h-5" style="color:#2563EB;"></i><span class="text-sm font-medium flex-1 text-left">Edit Profil</span><i data-lucide="chevron-right" class="w-4 h-4" style="opacity:0.5;"></i></button>
+        <button onclick="openAccountSwitcher()" class="w-full flex items-center gap-3 p-4 border-b" style="border-color:#DBEAFE;"><i data-lucide="user-plus" class="w-5 h-5" style="color:#2563EB;"></i><span class="text-sm font-medium flex-1 text-left">Tambah / Ganti Akun</span><i data-lucide="chevron-right" class="w-4 h-4" style="opacity:0.5;"></i></button>
+        <button onclick="showPage('account')" class="w-full flex items-center gap-3 p-4 border-b" style="border-color:#DBEAFE;"><i data-lucide="at-sign" class="w-5 h-5" style="color:#2563EB;"></i><span class="text-sm font-medium flex-1 text-left">Pusat Akun</span><i data-lucide="chevron-right" class="w-4 h-4" style="opacity:0.5;"></i></button>
+        <button onclick="showPage('security')" class="w-full flex items-center gap-3 p-4 border-b" style="border-color:#DBEAFE;"><i data-lucide="shield" class="w-5 h-5" style="color:#2563EB;"></i><span class="text-sm font-medium flex-1 text-left">Keamanan</span><i data-lucide="chevron-right" class="w-4 h-4" style="opacity:0.5;"></i></button>
+        <button onclick="showPage('verify')" class="w-full flex items-center gap-3 p-4 border-b" style="border-color:#DBEAFE;"><i data-lucide="badge-check" class="w-5 h-5" style="color:#2563EB;"></i><span class="text-sm font-medium flex-1 text-left">Ajukan Verifikasi</span><i data-lucide="chevron-right" class="w-4 h-4" style="opacity:0.5;"></i></button>
+        <button onclick="showPage('about')" class="w-full flex items-center gap-3 p-4"><i data-lucide="info" class="w-5 h-5" style="color:#2563EB;"></i><span class="text-sm font-medium flex-1 text-left">Tentang Aplikasi</span><i data-lucide="chevron-right" class="w-4 h-4" style="opacity:0.5;"></i></button>
+    </div>
+    <div id="founder-menu" class="hidden rounded-2xl overflow-hidden mb-3" style="background: linear-gradient(135deg, #FFFBEB, #FEF3C7); border: 1px solid #FCD34D;">
+        <div class="px-4 py-2" style="background: linear-gradient(135deg, #FBBF24, #F59E0B);"><p class="text-xs font-bold text-white">👑 MENU FOUNDER</p></div>
+        <button onclick="showPage('verify-users')" class="w-full flex items-center gap-3 p-4 border-b" style="border-color:#FDE68A;"><i data-lucide="badge-check" class="w-5 h-5" style="color:#F59E0B;"></i><span class="text-sm font-medium flex-1 text-left" style="color:#78350F;">Verifikasi User</span><span id="pending-verify-count" class="text-xs px-2 py-0.5 rounded-full font-medium text-white" style="background:#EF4444;">0</span><i data-lucide="chevron-right" class="w-4 h-4" style="color:#F59E0B;"></i></button>
+        <button onclick="showPage('manage-users')" class="w-full flex items-center gap-3 p-4 border-b" style="border-color:#FDE68A;"><i data-lucide="users" class="w-5 h-5" style="color:#F59E0B;"></i><span class="text-sm font-medium flex-1 text-left" style="color:#78350F;">Kelola Pengguna</span><i data-lucide="chevron-right" class="w-4 h-4" style="color:#F59E0B;"></i></button>
+        <button onclick="showPage('statistics')" class="w-full flex items-center gap-3 p-4"><i data-lucide="bar-chart-3" class="w-5 h-5" style="color:#F59E0B;"></i><span class="text-sm font-medium flex-1 text-left" style="color:#78350F;">Statistik</span><i data-lucide="chevron-right" class="w-4 h-4" style="color:#F59E0B;"></i></button>
+    </div>
+    <div class="card overflow-hidden mb-3">
+        <div class="flex items-center gap-3 p-4">
+            <i data-lucide="moon" class="w-5 h-5" style="color:#2563EB;"></i>
+            <span class="text-sm font-medium flex-1">Mode Gelap</span>
+            <div id="dark-toggle" class="toggle-bg toggle-off" onclick="toggleDark()"><div class="toggle-dot"></div></div>
+        </div>
+    </div>
+    <button onclick="logout()" class="w-full flex items-center justify-center gap-2 p-4 rounded-2xl font-semibold" style="background:#FEE2E2; color:#DC2626;"><i data-lucide="log-out" class="w-5 h-5"></i> Keluar Akun</button>
+    <div class="footer-copyright">Saling Sapa<br>Shank Anggara From Ulumonggo 2026</div>
+</div>
+
+</main>
+
+<nav class="fixed bottom-0 left-0 right-0 z-40 app-bottom-nav">
+    <div class="max-w-2xl mx-auto flex justify-around items-center py-2">
+        <button onclick="showPage('home')" class="bottom-nav-btn active" data-nav="home"><i data-lucide="home" class="w-6 h-6 nav-icon"></i><span class="nav-label nav-icon">Home</span></button>
+        <button onclick="showPage('search')" class="bottom-nav-btn" data-nav="search"><i data-lucide="search" class="w-6 h-6 nav-icon"></i><span class="nav-label nav-icon">Search</span></button>
+        <button onclick="openPostModal()" class="bottom-nav-btn" data-nav="post"><div class="w-10 h-10 rounded-full flex items-center justify-center shadow-md" style="background: linear-gradient(135deg, #60A5FA, #2563EB);"><i data-lucide="plus" class="w-5 h-5" style="color:white;"></i></div></button>
+        <button onclick="showPage('notif')" class="bottom-nav-btn" data-nav="notif"><i data-lucide="bell" class="w-6 h-6 nav-icon"></i><span class="nav-label nav-icon">Notif</span></button>
+        <button onclick="showPage('profile')" class="bottom-nav-btn" data-nav="profile"><i data-lucide="user" class="w-6 h-6 nav-icon"></i><span class="nav-label nav-icon">Profil</span></button>
+    </div>
+</nav>
+
+</div>
+
+<!-- MODAL: ACCOUNT SWITCHER -->
+<div id="account-switcher-modal" class="fixed inset-0 z-[96] bg-black/60 hidden items-center justify-center p-4">
+    <div class="card w-full max-w-sm p-5">
+        <h3 class="font-bold mb-4 flex items-center gap-2"><i data-lucide="users" class="w-5 h-5" style="color:#2563EB;"></i> Ganti Akun</h3>
+        <div id="saved-accounts-list" class="space-y-2 mb-4"></div>
+        <div class="border-t pt-3" style="border-color:#DBEAFE;">
+            <button onclick="addNewAccount()" class="w-full py-2.5 rounded-xl font-semibold text-white mb-2" style="background: linear-gradient(135deg, #60A5FA, #2563EB);">+ Tambah Akun Baru</button>
+            <button onclick="closeAccountSwitcher()" class="w-full py-2.5 rounded-xl font-medium" style="background:#DBEAFE; color:#1E40AF;">Batal</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL: POST -->
+<div id="post-modal" class="fixed inset-0 z-[85] bg-black/60 hidden items-end justify-center">
+    <div class="rounded-t-3xl w-full max-w-2xl shadow-2xl fade-in max-h-[90vh] flex flex-col card" style="border-radius: 24px 24px 0 0;">
+        <div class="p-4 border-b flex items-center justify-between" style="border-color:#DBEAFE;">
+            <button onclick="closePostModal()" class="font-medium" style="color:#2563EB;">Batal</button>
+            <h3 class="font-bold">Buat Postingan</h3>
+            <div class="w-12"></div>
+        </div>
+        <div class="p-4 flex-1 overflow-y-auto">
+            <textarea id="post-input-modal" rows="5" placeholder="Apa yang ingin Anda bagikan?" class="login-input" style="resize:none;"></textarea>
+            <div class="mt-3">
+                <p class="text-xs font-semibold mb-2" style="color:#2563EB;">POSTING KE:</p>
+                <div class="grid grid-cols-4 gap-2">
+                    <button onclick="togglePostPlatform(this,'instagram')" class="post-platform-btn py-2 rounded-xl border-2 font-semibold text-xs" data-platform="instagram" style="border-color:#E1306C; background: rgba(225,48,108,0.1); color:#E1306C;">📷 IG</button>
+                    <button onclick="togglePostPlatform(this,'twitter')" class="post-platform-btn py-2 rounded-xl border-2 font-semibold text-xs" data-platform="twitter" style="border-color:#1DA1F2; background: rgba(29,161,242,0.1); color:#1DA1F2;">🐦 Twitter</button>
+                    <button onclick="togglePostPlatform(this,'facebook')" class="post-platform-btn py-2 rounded-xl border-2 font-semibold text-xs" data-platform="facebook" style="border-color:#1877F2; background: rgba(24,119,242,0.1); color:#1877F2;">📘 FB</button>
+                    <button onclick="togglePostPlatform(this,'linkedin')" class="post-platform-btn py-2 rounded-xl border-2 font-semibold text-xs" data-platform="linkedin" style="border-color:#0A66C2; background: rgba(10,102,194,0.1); color:#0A66C2;">💼 LI</button>
+                </div>
+            </div>
+        </div>
+        <div class="p-4 border-t" style="border-color:#DBEAFE;">
+            <button onclick="publishPost()" id="publish-btn" class="w-full py-3 rounded-xl font-semibold text-white" style="background: linear-gradient(135deg, #60A5FA, #2563EB);">Publikasikan</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL: EDIT POST -->
+<div id="edit-post-modal" class="fixed inset-0 z-[86] bg-black/60 hidden items-center justify-center p-4">
+    <div class="card w-full max-w-md p-5">
+        <h3 class="font-bold mb-3">Edit Postingan</h3>
+        <textarea id="edit-post-input" rows="4" class="login-input mb-3" style="resize:none;"></textarea>
+        <div class="flex gap-2">
+            <button onclick="closeEditPost()" class="flex-1 py-2.5 rounded-xl font-medium" style="background:#DBEAFE; color:#1E40AF;">Batal</button>
+            <button onclick="saveEditedPost()" class="flex-1 py-2.5 rounded-xl font-semibold text-white" style="background: linear-gradient(135deg, #60A5FA, #2563EB);">Simpan</button>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, updateDoc, getDoc, setDoc, deleteDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// ============ FIREBASE CONFIG ============
+const firebaseConfig = {
+  apiKey: "AIzaSyCjI5pToN_WdYeG6T4zifFLb4Eh_TLLRv8",
+  authDomain: "salingsapa-7a51e.firebaseapp.com",
+  projectId: "salingsapa-7a51e",
+  storageBucket: "salingsapa-7a51e.firebasestorage.app",
+  messagingSenderId: "143318235257",
+  appId: "1:143318235257:web:cad2cbbd8562849423bca8"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const FOUNDER_EMAIL = 'anggishankjebone@gmail.com';
+
+let currentUser = null;
+let usersCache = {};
+let postsCache = [];
+let unsubscribeUsers = null;
+let unsubscribePosts = null;
+let unsubscribeNotifs = null;
+let currentFilter = 'all';
+let postPlatforms = { instagram: true, twitter: true, facebook: false, linkedin: false };
+let editingPostId = null;
+let otherProfileKey = null;
+let followListContext = null;
+let savedAccounts = JSON.parse(localStorage.getItem('ss_saved_accounts') || '[]');
+
+// ============ HELPERS ============
+window.toggleEye = function(inputId, iconId) {
+    const inp = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    if (inp.type === 'password') { inp.type = 'text'; icon.setAttribute('data-lucide', 'eye-off'); }
+    else { inp.type = 'password'; icon.setAttribute('data-lucide', 'eye'); }
+    lucide.createIcons();
+};
+
+window.switchAuthTab = function(tab) {
+    document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+    document.getElementById('tab-register').classList.toggle('active', tab === 'register');
+    document.getElementById('form-login').classList.toggle('hidden', tab !== 'login');
+    document.getElementById('form-register').classList.toggle('hidden', tab !== 'register');
+};
+
+window.showForgotPassword = function() {
+    document.getElementById('forgot-password-modal').classList.remove('hidden');
+    document.getElementById('forgot-password-modal').classList.add('flex');
+    document.getElementById('forgot-msg').classList.add('hidden');
+    document.getElementById('forgot-email').value = '';
+};
+window.closeForgotPassword = function() {
+    document.getElementById('forgot-password-modal').classList.add('hidden');
+    document.getElementById('forgot-password-modal').classList.remove('flex');
+};
+window.sendResetEmail = async function() {
+    const email = document.getElementById('forgot-email').value.trim();
+    const msg = document.getElementById('forgot-msg');
+    if (!email) { msg.className = 'text-sm mb-3 text-center text-red-500'; msg.innerText = 'Masukkan email Anda.'; msg.classList.remove('hidden'); return; }
+    try {
+        await sendPasswordResetEmail(auth, email);
+        msg.className = 'text-sm mb-3 text-center text-green-600';
+        msg.innerText = '✅ Link reset telah dikirim ke ' + email + '. Cek inbox/spam email Anda.';
+        msg.classList.remove('hidden');
+    } catch (err) {
+        msg.className = 'text-sm mb-3 text-center text-red-500';
+        msg.innerText = '❌ ' + err.message;
+        msg.classList.remove('hidden');
+    }
+};
+
+// ============ LOGIN ============
+window.handleLogin = async function(e) {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value.trim();
+    const pwd = document.getElementById('login-password').value;
+    const err = document.getElementById('login-error');
+    const btn = document.getElementById('login-btn');
+    btn.innerText = 'Memuat...'; btn.disabled = true;
+    try {
+        const cred = await signInWithEmailAndPassword(auth, email, pwd);
+        // Simpan ke saved accounts
+        const snap = await getDoc(doc(db, 'users', cred.user.uid));
+        if (snap.exists()) {
+            const uname = snap.data().username;
+            if (!savedAccounts.find(a => a.email === email)) {
+                savedAccounts.push({ email, username: uname });
+                localStorage.setItem('ss_saved_accounts', JSON.stringify(savedAccounts));
+            }
+        }
+        err.classList.add('hidden');
+    } catch (ex) {
+        let m = ex.message;
+        if (m.includes('user-not-found')) m = 'Email belum terdaftar. Silakan daftar dulu.';
+        else if (m.includes('wrong-password')) m = 'Password salah. Coba lagi.';
+        else if (m.includes('invalid-email')) m = 'Format email tidak valid.';
+        else if (m.includes('too-many-requests')) m = 'Terlalu banyak percobaan. Coba lagi nanti.';
+        err.innerText = '❌ ' + m;
+        err.classList.remove('hidden');
+    } finally {
+        btn.innerText = 'Masuk'; btn.disabled = false;
+    }
+};
+
+// ============ REGISTER ============
+window.handleRegister = async function(e) {
+    e.preventDefault();
+    const username = document.getElementById('reg-username').value.trim();
+    const email = document.getElementById('reg-email').value.trim();
+    const pwd = document.getElementById('reg-password').value;
+    const err = document.getElementById('register-error');
+    const btn = document.getElementById('register-btn');
+
+    if (username.length < 3) { err.innerText = 'Username minimal 3 karakter.'; err.classList.remove('hidden'); return; }
+    if (pwd.length < 6) { err.innerText = 'Password minimal 6 karakter.'; err.classList.remove('hidden'); return; }
+
+    btn.innerText = 'Mendaftar...'; btn.disabled = true;
+    try {
+        const cred = await createUserWithEmailAndPassword(auth, email, pwd);
+        const uid = cred.user.uid;
+        const isFounder = email.toLowerCase() === FOUNDER_EMAIL.toLowerCase();
+        await setDoc(doc(db, 'users', uid), {
+            uid, username, email,
+            bio: isFounder ? 'Mari saling menyapa, bebual bersama tanpa batas.' : 'Pengguna baru Saling Sapa',
+            city: isFounder ? 'Ulumonggo' : '',
+            joined: formatDate(new Date()),
+            isFounder, verified: isFounder,
+            followers: isFounder ? 1000 : 0,
+            following: isFounder ? 10 : 0,
+            online: true,
+            social: { ig: '', tw: '', fb: '', li: '' },
+            createdAt: serverTimestamp()
+        });
+        await updateProfile(cred.user, { displayName: username });
+        err.classList.add('hidden');
+        alert('✅ Pendaftaran berhasil!\n\nSelamat datang di Saling Sapa, ' + username + '!');
+    } catch (ex) {
+        let m = ex.message;
+        if (m.includes('email-already-in-use')) m = 'Email sudah terdaftar. Silakan login.';
+        else if (m.includes('invalid-email')) m = 'Format email tidak valid.';
+        else if (m.includes('weak-password')) m = 'Password terlalu lemah (min. 6 karakter).';
+        err.innerText = '❌ ' + m;
+        err.classList.remove('hidden');
+    } finally {
+        btn.innerText = 'Daftar Sekarang'; btn.disabled = false;
+    }
+};
+
+function formatDate(d) {
+    const bulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    return d.getDate() + ' ' + bulan[d.getMonth()] + ' ' + d.getFullYear();
+}
+
+// ============ AUTH STATE ============
+onAuthStateChanged(auth, async (user) => {
+    document.getElementById('loading-screen').classList.add('hidden');
+    if (user) {
+        const snap = await getDoc(doc(db, 'users', user.uid));
+        if (!snap.exists()) {
+            await signOut(auth);
+            return;
+        }
+        currentUser = { key: user.uid, ...snap.data() };
+        document.getElementById('login-page').classList.add('hidden');
+        document.getElementById('main-app').classList.remove('hidden');
+        initRealtime();
+        initApp();
+    } else {
+        currentUser = null;
+        document.getElementById('login-page').classList.remove('hidden');
+        document.getElementById('main-app').classList.add('hidden');
+        if (unsubscribeUsers) unsubscribeUsers();
+        if (unsubscribePosts) unsubscribePosts();
+        if (unsubscribeNotifs) unsubscribeNotifs();
+    }
+    lucide.createIcons();
+});
+
+// ============ REALTIME LISTENERS ============
+function initRealtime() {
+    unsubscribeUsers = onSnapshot(collection(db, 'users'), snap => {
+        usersCache = {};
+        snap.forEach(d => { usersCache[d.id] = d.data(); });
+        renderFeed();
+        renderProfile();
+    });
+    unsubscribePosts = onSnapshot(query(collection(db, 'posts'), orderBy('createdAt', 'desc')), snap => {
+        postsCache = [];
+        snap.forEach(d => postsCache.push({ id: d.id, ...d.data() }));
+        renderFeed();
+        renderProfile();
+    });
+    unsubscribeNotifs = onSnapshot(query(collection(db, 'notifications'), orderBy('createdAt', 'desc')), snap => {
+        const list = [];
+        snap.forEach(d => list.push({ id: d.id, ...d.data() }));
+        renderNotifs(list);
+    });
+}
+
+function initApp() {
+    document.getElementById('settings-name').innerText = currentUser.username;
+    document.getElementById('settings-sub').innerText = '@' + currentUser.key.substring(0, 8);
+    if (currentUser.isFounder) document.getElementById('founder-menu').classList.remove('hidden');
+    updateDarkToggle();
+    renderSuggestedUsers();
+    showPage('home');
+    lucide.createIcons();
+}
+
+// ============ LOGOUT ============
+window.logout = async function() {
+    if (confirm('Yakin ingin keluar dari akun?')) {
+        if (currentUser) {
+            try { await updateDoc(doc(db, 'users', currentUser.key), { online: false }); } catch(e) {}
+        }
+        await signOut(auth);
+        location.reload();
+    }
+};
+
+// ============ NAVIGATION ============
+window.showPage = function(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+    const t = document.getElementById('page-' + page);
+    if (t) t.classList.remove('hidden');
+    document.querySelectorAll('.bottom-nav-btn').forEach(b => b.classList.remove('active'));
+    const nav = document.querySelector(`.bottom-nav-btn[data-nav="${page}"]`);
+    if (nav) nav.classList.add('active');
+    if (page === 'profile') renderProfile();
+    if (page === 'search') renderSuggestedUsers();
+    if (page === 'settings') renderSettings();
+    if (page === 'edit-profile') renderEditProfile();
+    if (page === 'account') renderAccount();
+    if (page === 'verify') renderVerifyPage();
+    if (page === 'verify-users') renderVerifyUsers();
+    if (page === 'manage-users') renderManageUsers();
+    if (page === 'statistics') renderStatistics();
+    window.scrollTo(0, 0);
+    lucide.createIcons();
+};
+
+// ============ FEED ============
+function renderFeed() {
+    const container = document.getElementById('feed-container');
+    if (!container) return;
+    let filtered = postsCache;
+    if (currentFilter !== 'all') filtered = postsCache.filter(p => p.platform === currentFilter);
+    if (filtered.length === 0) {
+        container.innerHTML = '<p class="text-center py-8 text-sm" style="opacity:0.7;">Belum ada postingan. Jadilah yang pertama! ✨</p>';
+        return;
+    }
+    const icons = { instagram: '📷', twitter: '🐦', facebook: '📘', linkedin: '💼' };
+    const cardClass = { instagram: 'card-instagram', twitter: 'card-twitter', facebook: 'card-facebook', linkedin: 'card-linkedin' };
+    container.innerHTML = filtered.map(p => {
+        const author = usersCache[p.authorId];
+        if (!author) return '';
+        let badges = '';
+        if (author.isFounder) badges = '<span class="badge-founder">👑 FOUNDER</span>';
+        if (author.verified && !author.isFounder) badges += ' <i data-lucide="badge-check" class="inline-block w-4 h-4" style="color:#2563EB;"></i>';
+        const ownerActions = p.authorId === currentUser.key ? `<div class="flex gap-2 ml-auto"><button onclick="editPost('${p.id}')" class="text-xs font-medium px-2 py-1 rounded" style="color:#2563EB; background:rgba(37,99,235,0.15);">✏️ Edit</button><button onclick="deletePost('${p.id}')" class="text-xs font-medium px-2 py-1 rounded" style="color:#DC2626; background:rgba(220,38,38,0.15);">🗑 Hapus</button></div>` : '';
+        const likes = p.likes || [];
+        const isLiked = likes.includes(currentUser.key);
+        const likeCount = likes.length;
+        const comments = p.comments || [];
+        const commentsHtml = comments.length ? '<div class="mt-2">' + comments.map(c => `<div class="comment-item"><p class="text-xs"><span class="font-bold clickable-name" onclick="openOtherProfile('${c.authorId}')">${usersCache[c.authorId]?.username || 'User'}</span> <span style="opacity:0.7;">${c.time || ''}</span></p><p class="text-sm mt-0.5">${c.text}</p></div>`).join('') + '</div>' : '';
+        return `<article class="card ${cardClass[p.platform]} p-4 fade-in">
+            <div class="flex items-start gap-3">
+                <div class="w-10 h-10 rounded-full avatar-svg cursor-pointer" onclick="openOtherProfile('${p.authorId}')"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-1.5 flex-wrap">
+                        <span class="font-bold text-sm clickable-name" onclick="openOtherProfile('${p.authorId}')">${author.username}</span>
+                        ${badges}
+                        <span class="text-xs" style="opacity:0.7;">${p.time || 'Baru saja'} • ${icons[p.platform]}</span>
+                        ${ownerActions}
+                    </div>
+                    <p class="text-sm mt-2 leading-relaxed">${p.content}</p>
+                    <div class="flex gap-4 text-xs mt-3" style="opacity:0.8;">
+                        <button onclick="toggleLike('${p.id}')" class="flex items-center gap-1 like-btn ${isLiked ? 'liked' : ''}"><i data-lucide="heart" class="w-4 h-4"></i> <span>${likeCount}</span></button>
+                        <button onclick="toggleComment('${p.id}')" class="flex items-center gap-1"><i data-lucide="message-circle" class="w-4 h-4"></i> <span>${comments.length}</span></button>
+                        <button onclick="sharePost('${p.id}')" class="flex items-center gap-1"><i data-lucide="share-2" class="w-4 h-4"></i></button>
+                    </div>
+                    <div class="comment-input-row" id="comment-row-${p.id}">
+                        <input type="text" id="comment-input-${p.id}" placeholder="Tulis komentar..." class="login-input" style="padding:8px 12px; font-size:13px;">
+                        <button onclick="sendComment('${p.id}')" class="px-3 py-1 rounded-xl text-xs font-semibold text-white" style="background: linear-gradient(135deg, #60A5FA, #2563EB);">Kirim</button>
+                    </div>
+                    ${commentsHtml}
+                </div>
+            </div>
+        </article>`;
+    }).join('');
+    lucide.createIcons();
+}
+
+window.filterFeed = function(platform, btn) {
+    currentFilter = platform;
+    document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderFeed();
+};
+
+window.toggleLike = async function(postId) {
+    const post = postsCache.find(p => p.id === postId);
+    if (!post) return;
+    const likes = post.likes || [];
+    const isLiked = likes.includes(currentUser.key);
+    try {
+        await updateDoc(doc(db, 'posts', postId), {
+            likes: isLiked ? arrayRemove(currentUser.key) : arrayUnion(currentUser.key)
+        });
+    } catch(e) { alert('Gagal: ' + e.message); }
+};
+
+window.toggleComment = function(postId) {
+    const row = document.getElementById('comment-row-' + postId);
+    if (row) {
+        row.classList.toggle('show');
+        if (row.classList.contains('show')) document.getElementById('comment-input-' + postId)?.focus();
+    }
+};
+
+window.sendComment = async function(postId) {
+    const input = document.getElementById('comment-input-' + postId);
+    const text = input.value.trim();
+    if (!text) return;
+    const post = postsCache.find(p => p.id === postId);
+    if (!post) return;
+    const newComments = [...(post.comments || []), { authorId: currentUser.key, text, time: 'Baru saja' }];
+    try {
+        await updateDoc(doc(db, 'posts', postId), { comments: newComments });
+        input.value = '';
+    } catch(e) { alert('Gagal: ' + e.message); }
+};
+
+window.sharePost = function(postId) {
+    const p = postsCache.find(x => x.id === postId);
+    if (!p) return;
+    const text = `${usersCache[p.authorId]?.username || 'User'}: ${p.content}\n\n— via Saling Sapa`;
+    if (navigator.share) navigator.share({ title: 'Saling Sapa', text });
+    else { navigator.clipboard.writeText(text); alert('📋 Teks disalin!'); }
+};
+
+// ============ POST MODAL ============
+window.openPostModal = function() { document.getElementById('post-modal').classList.remove('hidden'); document.getElementById('post-modal').classList.add('flex'); };
+window.closePostModal = function() { document.getElementById('post-modal').classList.add('hidden'); document.getElementById('post-modal').classList.remove('flex'); };
+window.togglePostPlatform = function(btn, platform) { postPlatforms[platform] = !postPlatforms[platform]; btn.style.opacity = postPlatforms[platform] ? '1' : '0.4'; };
+
+window.publishPost = async function() {
+    const text = document.getElementById('post-input-modal').value.trim();
+    if (!text) return alert('Tulis sesuatu dulu!');
+    const platforms = Object.keys(postPlatforms).filter(p => postPlatforms[p]);
+    if (platforms.length === 0) return alert('Pilih minimal 1 platform!');
+    const btn = document.getElementById('publish-btn');
+    btn.innerText = 'Mempublikasikan...'; btn.disabled = true;
+    try {
+        for (const plat of platforms) {
+            await addDoc(collection(db, 'posts'), {
+                authorId: currentUser.key,
+                platform: plat,
+                content: text,
+                time: 'Baru saja',
+                likes: currentUser.isFounder ? ['bot1','bot2','bot3','bot4','bot5','bot6','bot7'] : [],
+                comments: [],
+                createdAt: serverTimestamp()
+            });
+        }
+        // Notifikasi
+        await addDoc(collection(db, 'notifications'), {
+            text: `📝 ${currentUser.username} membuat postingan baru`,
+            time: 'Baru saja',
+            createdAt: serverTimestamp()
+        });
+        document.getElementById('post-input-modal').value = '';
+        closePostModal();
+    } catch(e) { alert('Gagal: ' + e.message); }
+    finally { btn.innerText = 'Publikasikan'; btn.disabled = false; }
+};
+
+window.editPost = function(id) {
+    const p = postsCache.find(x => x.id === id);
+    if (!p) return;
+    editingPostId = id;
+    document.getElementById('edit-post-input').value = p.content;
+    document.getElementById('edit-post-modal').classList.remove('hidden');
+    document.getElementById('edit-post-modal').classList.add('flex');
+};
+window.closeEditPost = function() { document.getElementById('edit-post-modal').classList.add('hidden'); document.getElementById('edit-post-modal').classList.remove('flex'); editingPostId = null; };
+window.saveEditedPost = async function() {
+    const text = document.getElementById('edit-post-input').value.trim();
+    if (!text) return;
+    try {
+        await updateDoc(doc(db, 'posts', editingPostId), { content: text, time: 'Baru saja diedit' });
+        closeEditPost();
+    } catch(e) { alert('Gagal: ' + e.message); }
+};
+window.deletePost = async function(id) {
+    if (!confirm('Hapus postingan ini?')) return;
+    try { await deleteDoc(doc(db, 'posts', id)); } catch(e) { alert('Gagal: ' + e.message); }
+};
+
+// ============ NOTIF ============
+function renderNotifs(list) {
+    const c = document.getElementById('notif-container');
+    if (!c) return;
+    if (!list || list.length === 0) { c.innerHTML = '<p class="text-center py-8 text-sm" style="opacity:0.7;">Belum ada notifikasi.</p>'; return; }
+    c.innerHTML = list.slice(0, 50).map(n => `<div class="card p-3 flex items-start gap-3"><div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background:rgba(37,99,235,0.15);"><i data-lucide="bell" class="w-4 h-4" style="color:#2563EB;"></i></div><div class="flex-1"><p class="text-sm">${n.text}</p><p class="text-xs mt-0.5" style="opacity:0.7;">${n.time || ''}</p></div></div>`).join('');
+    lucide.createIcons();
+}
+
+// ============ PROFILE ============
+function renderProfile() {
+    if (!currentUser) return;
+    document.getElementById('profile-username-header').innerText = '@' + currentUser.key.substring(0, 8);
+    document.getElementById('profile-name').innerText = currentUser.username;
+    document.getElementById('profile-bio-text').innerText = currentUser.bio || 'Belum ada bio';
+    document.getElementById('profile-city').innerText = currentUser.city || 'Belum diisi';
+    document.getElementById('profile-check').innerHTML = currentUser.verified ? '<i data-lucide="badge-check" class="w-5 h-5" style="color:#2563EB;"></i>' : '';
+    document.getElementById('profile-subtitle').style.display = currentUser.isFounder ? 'block' : 'none';
+    const myPosts = postsCache.filter(p => p.authorId === currentUser.key);
+    document.getElementById('stat-posts').innerText = myPosts.length;
+    document.getElementById('stat-followers').innerText = currentUser.followers || 0;
+    document.getElementById('stat-following').innerText = currentUser.following || 0;
+    const totalLikes = myPosts.reduce((s, p) => s + (p.likes?.length || 0), 0);
+    document.getElementById('my-likes').innerText = totalLikes;
+    document.getElementById('my-comments').innerText = myPosts.reduce((s, p) => s + (p.comments?.length || 0), 0);
+    const social = currentUser.social || {};
+    document.getElementById('social-ig-val').innerText = social.ig || 'Belum diisi';
+    document.getElementById('social-tw-val').innerText = social.tw || 'Belum diisi';
+    document.getElementById('social-fb-val').innerText = social.fb || 'Belum diisi';
+    document.getElementById('social-li-val').innerText = social.li || 'Belum diisi';
+    lucide.createIcons();
+}
+
+window.openOtherProfile = function(uid) {
+    if (uid === currentUser.key) { showPage('profile'); return; }
+    const u = usersCache[uid];
+    if (!u) { alert('User tidak ditemukan.'); return; }
+    otherProfileKey = uid;
+    document.getElementById('other-profile-username-header').innerText = '@' + uid.substring(0, 8);
+    document.getElementById('other-profile-name').innerText = u.username;
+    document.getElementById('other-profile-bio').innerText = u.bio || 'Belum ada bio';
+    document.getElementById('other-profile-city').innerText = u.city || 'Belum diisi';
+    document.getElementById('other-profile-check').innerHTML = u.verified ? '<i data-lucide="badge-check" class="w-5 h-5" style="color:#2563EB;"></i>' : '';
+    document.getElementById('other-profile-subtitle').style.display = u.isFounder ? 'block' : 'none';
+    document.getElementById('other-stat-posts').innerText = postsCache.filter(p => p.authorId === uid).length;
+    document.getElementById('other-stat-followers').innerText = u.followers || 0;
+    document.getElementById('other-stat-following').innerText = u.following || 0;
+    const isFollowing = (currentUser.followingList || []).includes(uid);
+    const btn = document.getElementById('follow-btn');
+    btn.classList.toggle('following', isFollowing);
+    btn.innerText = isFollowing ? 'Mengikuti' : 'Follow';
+    showPage('other-profile');
+};
+
+window.backFromOtherProfile = function() { showPage('home'); };
+
+window.toggleFollow = async function() {
+    if (!otherProfileKey) return;
+    const followingList = currentUser.followingList || [];
+    const isFollowing = followingList.includes(otherProfileKey);
+    try {
+        if (isFollowing) {
+            await updateDoc(doc(db, 'users', currentUser.key), {
+                followingList: arrayRemove(otherProfileKey),
+                following: Math.max(0, (currentUser.following || 1) - 1)
+            });
+            await updateDoc(doc(db, 'users', otherProfileKey), {
+                followers: Math.max(0, (usersCache[otherProfileKey].followers || 1) - 1)
+            });
+        } else {
+            await updateDoc(doc(db, 'users', currentUser.key), {
+                followingList: arrayUnion(otherProfileKey),
+                following: (currentUser.following || 0) + 1
+            });
+            await updateDoc(doc(db, 'users', otherProfileKey), {
+                followers: (usersCache[otherProfileKey].followers || 0) + 1
+            });
+        }
+        const snap = await getDoc(doc(db, 'users', currentUser.key));
+        currentUser = { key: currentUser.key, ...snap.data() };
+        toggleFollow();
+    } catch(e) { alert('Gagal: ' + e.message); }
+};
+
+window.openSocial = function(platform) {
+    const val = (currentUser.social || {})[platform];
+    if (!val) return alert('Anda belum mengisi ' + platform.toUpperCase() + '.');
+    const urls = { ig: 'https://instagram.com/', tw: 'https://twitter.com/', fb: 'https://facebook.com/', li: 'https://linkedin.com/in/' };
+    window.open(urls[platform] + val.replace('@', ''), '_blank');
+};
+
+window.shareProfile = function() {
+    const text = 'Yuk gabung Saling Sapa! Cek profil saya: @' + currentUser.username;
+    if (navigator.share) navigator.share({ title: 'Saling Sapa', text });
+    else alert(text);
+};
+
+window.openFollowList = async function(context, type) {
+    followListContext = context;
+    let uid;
+    if (context === 'my') uid = currentUser.key;
+    else uid = otherProfileKey;
+    const u = usersCache[uid];
+    const list = type === 'followers' ? (u.followersList || []) : (u.followingList || []);
+    document.getElementById('follow-list-title').innerText = (type === 'followers' ? 'Pengikut ' : 'Mengikuti ') + u.username;
+    const c = document.getElementById('follow-list-content');
+    if (!list || list.length === 0) { c.innerHTML = '<p class="text-center py-8 text-sm" style="opacity:0.7;">Belum ada.</p>'; }
+    else {
+        c.innerHTML = list.map(k => {
+            const uu = usersCache[k];
+            if (!uu) return '';
+            return `<div class="card p-3 flex items-center gap-3 cursor-pointer" onclick="openOtherProfile('${k}')"><div class="w-11 h-11 rounded-full avatar-svg"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div><div class="flex-1"><p class="font-semibold text-sm">${uu.username}</p><p class="text-xs" style="opacity:0.75;">${uu.bio || ''}</p></div></div>`;
+        }).join('');
+    }
+    showPage('follow-list');
+};
+
+window.backFromFollowList = function() { if (followListContext === 'my') showPage('profile'); else showPage('other-profile'); };
+window.switchProfileTab = function(which, tab, el) {
+    el.parentElement.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    ['foto','statistik','video'].forEach(t => document.getElementById('tab-' + which + '-' + t).classList.add('hidden'));
+    document.getElementById('tab-' + which + '-' + tab).classList.remove('hidden');
+    lucide.createIcons();
+};
+
+function renderEditProfile() {
+    document.getElementById('edit-name').value = currentUser.username;
+    document.getElementById('edit-bio').value = currentUser.bio || '';
+    document.getElementById('edit-city').value = currentUser.city || '';
+    const s = currentUser.social || {};
+    document.getElementById('edit-ig').value = s.ig || '';
+    document.getElementById('edit-tw').value = s.tw || '';
+    document.getElementById('edit-fb').value = s.fb || '';
+    document.getElementById('edit-li').value = s.li || '';
+}
+
+window.saveProfile = async function() {
+    const name = document.getElementById('edit-name').value.trim();
+    const bio = document.getElementById('edit-bio').value;
+    const city = document.getElementById('edit-city').value;
+    const social = { ig: document.getElementById('edit-ig').value, tw: document.getElementById('edit-tw').value, fb: document.getElementById('edit-fb').value, li: document.getElementById('edit-li').value };
+    try {
+        await updateDoc(doc(db, 'users', currentUser.key), { username: name, bio, city, social });
+        currentUser.username = name; currentUser.bio = bio; currentUser.city = city; currentUser.social = social;
+        alert('Profil berhasil disimpan!');
+        showPage('profile');
+    } catch(e) { alert('Gagal: ' + e.message); }
+};
+
+function renderAccount() {
+    document.getElementById('acc-username').innerText = '@' + currentUser.key.substring(0, 8);
+    document.getElementById('acc-email').innerText = currentUser.email || '-';
+    document.getElementById('acc-city').innerText = currentUser.city || '-';
+    document.getElementById('acc-joined').innerText = currentUser.joined || '-';
+}
+
+function renderVerifyPage() {
+    const box = document.getElementById('verify-status-box');
+    if (currentUser.isFounder || currentUser.verified) { box.style.background = '#DCFCE7'; box.style.color = '#16A34A'; box.innerText = '✅ Akun Anda sudah terverifikasi!'; }
+    else if (currentUser.verifyRequest) { box.style.background = '#FEF3C7'; box.style.color = '#D97706'; box.innerText = '⏳ Pengajuan Anda sedang ditinjau.'; }
+    else { box.style.background = 'rgba(37,99,235,0.15)'; box.style.color = '#2563EB'; box.innerText = '🔵 Anda belum mengajukan verifikasi.'; }
+}
+
+window.submitVerification = async function() {
+    const msg = document.getElementById('verify-message').value.trim();
+    if (!msg) return alert('Tulis alasan pengajuan.');
+    try {
+        await addDoc(collection(db, 'verifyRequests'), { uid: currentUser.key, username: currentUser.username, message: msg, status: 'pending', createdAt: serverTimestamp() });
+        await updateDoc(doc(db, 'users', currentUser.key), { verifyRequest: true });
+        alert('Pengajuan terkirim!');
+    } catch(e) { alert('Gagal: ' + e.message); }
+};
+
+function renderVerifyUsers() {
+    const c = document.getElementById('verify-users-list');
+    c.innerHTML = '<p class="text-center py-8 text-sm" style="opacity:0.7;">Fitur lengkap akan hadir segera. Cek Firebase Console untuk daftar pengajuan.</p>';
+}
+
+function renderManageUsers() {
+    const c = document.getElementById('manage-users-list');
+    const realUsers = Object.entries(usersCache).filter(([k, u]) => !u.isBot);
+    c.innerHTML = realUsers.map(([k, u]) => `<div class="card p-4"><div class="flex items-center gap-3 mb-2"><div class="w-10 h-10 rounded-full avatar-svg"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div><div class="flex-1"><p class="font-bold text-sm">${u.username} ${u.isFounder ? '👑' : ''} ${u.verified ? '✅' : ''}</p><p class="text-xs" style="opacity:0.7;">${u.email}</p><p class="text-xs" style="opacity:0.7;">Bergabung: ${u.joined}</p></div></div><div class="flex gap-2"><button onclick="openOtherProfile('${k}')" class="flex-1 py-1.5 rounded-lg text-xs font-semibold" style="background:rgba(37,99,235,0.15); color:#2563EB;">👁 Lihat</button><button onclick="deleteUser('${k}')" class="flex-1 py-1.5 rounded-lg text-xs font-semibold" style="background:rgba(220,38,38,0.15); color:#DC2626;">🗑 Hapus</button></div></div>`).join('');
+}
+
+window.deleteUser = async function(uid) {
+    if (uid === currentUser.key) return alert('Tidak bisa hapus akun sendiri!');
+    if (!confirm('Hapus user ini?')) return;
+    try { await deleteDoc(doc(db, 'users', uid)); alert('User dihapus.'); } catch(e) { alert('Gagal: ' + e.message); }
+};
+
+function renderStatistics() {
+    const totalUsers = Object.keys(usersCache).length;
+    const totalPosts = postsCache.length;
+    const verified = Object.values(usersCache).filter(u => u.verified).length;
+    document.getElementById('statistics-content').innerHTML = `
+        <div class="grid grid-cols-2 gap-3 mb-4">
+            <div class="card p-4"><p class="text-xs font-semibold" style="color:#2563EB;">👥 USER</p><p class="text-2xl font-bold">${totalUsers}</p></div>
+            <div class="card p-4"><p class="text-xs font-semibold" style="color:#2563EB;">📝 POSTINGAN</p><p class="text-2xl font-bold">${totalPosts}</p></div>
+            <div class="card p-4"><p class="text-xs font-semibold" style="color:#2563EB;">✅ VERIFIED</p><p class="text-2xl font-bold">${verified}</p></div>
+            <div class="card p-4"><p class="text-xs font-semibold" style="color:#2563EB;">🔔 NOTIF</p><p class="text-2xl font-bold">-</p></div>
+        </div>`;
+}
+
+function renderSuggestedUsers() {
+    const c = document.getElementById('suggested-users');
+    if (!c) return;
+    const list = Object.entries(usersCache).filter(([k]) => k !== currentUser.key).slice(0, 10);
+    c.innerHTML = list.map(([k, u]) => `<div class="card p-3 flex items-center gap-3 cursor-pointer" onclick="openOtherProfile('${k}')"><div class="w-10 h-10 rounded-full avatar-svg"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div><div class="flex-1"><p class="font-semibold text-sm">${u.username} ${u.isFounder ? '👑' : ''}</p><p class="text-xs" style="opacity:0.75;">${u.bio || ''}</p></div></div>`).join('') || '<p class="text-center py-4 text-sm" style="opacity:0.7;">Belum ada user lain.</p>';
+}
+
+window.performSearch = function() {
+    const q = document.getElementById('search-input').value.toLowerCase().trim();
+    const c = document.getElementById('search-results');
+    if (!q) { renderSuggestedUsers(); return; }
+    const matchedUsers = Object.entries(usersCache).filter(([k, u]) => u.username?.toLowerCase().includes(q) || (u.bio || '').toLowerCase().includes(q));
+    let html = '';
+    if (matchedUsers.length) {
+        html = '<h3 class="text-xs font-bold uppercase mb-2" style="color:#2563EB;">Pengguna</h3><div class="space-y-2">';
+        html += matchedUsers.map(([k, u]) => `<div class="card p-3 flex items-center gap-3 cursor-pointer" onclick="openOtherProfile('${k}')"><div class="w-9 h-9 rounded-full avatar-svg"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div><span class="font-medium text-sm">${u.username}</span></div>`).join('');
+        html += '</div>';
+    } else { html = '<p class="text-center py-8 text-sm" style="opacity:0.7;">Tidak ada hasil.</p>'; }
+    c.innerHTML = html;
+};
+
+function renderSettings() {
+    document.getElementById('settings-name').innerText = currentUser.username;
+    document.getElementById('settings-sub').innerText = '@' + currentUser.key.substring(0, 8);
+}
+
+window.toggleDark = function() {
+    document.documentElement.classList.toggle('dark');
+    document.documentElement.classList.toggle('light');
+    localStorage.setItem('ss_dark', document.documentElement.classList.contains('dark'));
+    updateDarkToggle();
+};
+function updateDarkToggle() {
+    const t = document.getElementById('dark-toggle');
+    if (!t) return;
+    if (document.documentElement.classList.contains('dark')) { t.classList.add('toggle-on'); t.classList.remove('toggle-off'); }
+    else { t.classList.remove('toggle-on'); t.classList.add('toggle-off'); }
+}
+
+// ============ ACCOUNT SWITCHER ============
+window.openAccountSwitcher = function() {
+    const c = document.getElementById('saved-accounts-list');
+    if (savedAccounts.length === 0) c.innerHTML = '<p class="text-xs text-center" style="opacity:0.7;">Belum ada akun tersimpan.</p>';
+    else c.innerHTML = savedAccounts.map(a => `<div class="card p-3 flex items-center gap-3 cursor-pointer" onclick="switchToAccount('${a.email}')"><div class="w-10 h-10 rounded-full avatar-svg"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div><div class="flex-1"><p class="font-semibold text-sm">${a.username}</p><p class="text-xs" style="opacity:0.7;">${a.email}</p></div></div>`).join('');
+    document.getElementById('account-switcher-modal').classList.remove('hidden');
+    document.getElementById('account-switcher-modal').classList.add('flex');
+};
+window.closeAccountSwitcher = function() {
+    document.getElementById('account-switcher-modal').classList.add('hidden');
+    document.getElementById('account-switcher-modal').classList.remove('flex');
+};
+window.switchToAccount = async function(email) {
+    closeAccountSwitcher();
+    await signOut(auth);
+    document.getElementById('login-email').value = email;
+    document.getElementById('login-password').value = '';
+    alert('Masukkan password untuk akun ' + email);
+};
+window.addNewAccount = async function() {
+    closeAccountSwitcher();
+    await signOut(auth);
+    document.getElementById('login-email').value = '';
+    document.getElementById('login-password').value = '';
+};
+
+if (localStorage.getItem('ss_dark') === 'true') {
+    document.documentElement.classList.remove('light');
+    document.documentElement.classList.add('dark');
+}
+
+lucide.createIcons();
+</script>
+</body>
+</html>
