@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="id" class="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saling Sapa - Bebual Bersama</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { darkMode: 'class', theme: { extend: { colors: {
+    instagram: '#E1306C', twitter: '#1DA1F2', facebook: '#1877F2', linkedin: '#0A66C2'
+}}}}
+</script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+* { -webkit-tap-highlight-color: transparent; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    transition: background-color 0.4s, color 0.4s;
+    position: relative; min-height: 100vh;
+    background-color: #E8F4FD; color: #1E3A8A;
+}
+html.dark body { background-color: #15202B; color: #F7F9F9; }
+
+.cloud { position: fixed; border-radius: 50%; background: rgba(255,255,255,0.4); filter: blur(60px); pointer-events: none; z-index: 0; }
+html.dark .cloud { background: rgba(29, 155, 240, 0.05); }
+.cloud1 { width: 300px; height: 130px; top: 5%; left: -100px; }
+.cloud2 { width: 400px; height: 150px; top: 40%; right: -180px; }
+.cloud3 { width: 260px; height: 100px; bottom: 12%; left: -80px; }
+
+.fade-in { animation: fadeIn 0.3s ease-in-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+.avatar-svg {
+    background: linear-gradient(135deg, #BFDBFE, #93C5FD);
+    display: flex; align-items: center; justify-content: center;
+    color: #1E40AF; font-weight: bold; border-radius: 50%;
+    flex-shrink: 0; overflow: hidden;
+}
+html.dark .avatar-svg { background: linear-gradient(135deg, #22303C, #2F3E4E); color: #8B98A5; }
+.avatar-svg svg { width: 55%; height: 55%; fill: currentColor; }
+
+.toggle-bg { width: 44px; height: 24px; border-radius: 12px; position: relative; transition: background-color 0.3s; cursor: pointer; }
+.toggle-dot { width: 20px; height: 20px; border-radius: 50%; background: white; position: absolute; top: 2px; left: 2px; transition: transform 0.3s; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+.toggle-on { background-color: #1D9BF0; }
+.toggle-on .toggle-dot { transform: translateX(20px); }
+.toggle-off { background-color: #64748B; }
+
+.bottom-nav-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 10px; border-radius: 12px; transition: all 0.2s; cursor: pointer; background: transparent; border: none; }
+.bottom-nav-btn.active { background: rgba(29, 155, 240, 0.15); }
+.bottom-nav-btn.active .nav-icon { color: #2563EB; }
+html.dark .bottom-nav-btn.active .nav-icon { color: #1D9BF0; }
+.nav-icon { color: #64748B; }
+html.dark .nav-icon { color: #8B98A5; }
+.nav-label { font-size: 10px; font-weight: 500; }
+.nav-icon, .nav-label { transition: color 0.2s; }
+.bottom-nav-btn.active .nav-label { color: #2563EB; }
+html.dark .bottom-nav-btn.active .nav-label { color: #1D9BF0; }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.profile-tab { flex: 1; padding: 12px 0; text-align: center; font-size: 13px; font-weight: 600; color: #64748B; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; }
+.profile-tab.active { color: #2563EB; border-bottom-color: #2563EB; }
+html.dark .profile-tab { color: #8B98A5; }
+html.dark .profile-tab.active { color: #1D9BF0; border-bottom-color: #1D9BF0; }
+
+.post-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.post-grid-item { aspect-ratio: 1/1; background: linear-gradient(135deg, #BFDBFE, #93C5FD); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+html.dark .post-grid-item { background: linear-gradient(135deg, #22303C, #2F3E4E); }
+.post-grid-item svg { width: 30%; height: 30%; color: #3B82F6; opacity: 0.7; }
+html.dark .post-grid-item svg { color: #8B98A5; }
+
+.social-box { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: rgba(255,255,255,0.65); border: 1px solid #DBEAFE; cursor: pointer; transition: all 0.2s; }
+html.dark .social-box { background: #1E2732; border-color: #38444D; }
+.social-box .icon-wrap { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; }
+
+.card { background: rgba(255,255,255,0.75); backdrop-filter: blur(10px); border: 1px solid #DBEAFE; border-radius: 16px; }
+html.dark .card { background: #1E2732; border-color: #38444D; color: #F7F9F9; }
+
+.app-header { background: rgba(232, 244, 253, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid #DBEAFE; }
+html.dark .app-header { background: rgba(21, 32, 43, 0.95); border-color: #38444D; }
+
+.app-bottom-nav { background: rgba(232, 244, 253, 0.95); backdrop-filter: blur(12px); border-top: 1px solid #DBEAFE; }
+html.dark .app-bottom-nav { background: rgba(21, 32, 43, 0.98); border-color: #38444D; }
+
+.card-instagram { border-top: 3px solid #E1306C; }
+.card-twitter { border-top: 3px solid #1DA1F2; }
+.card-facebook { border-top: 3px solid #1877F2; }
+.card-linkedin { border-top: 3px solid #0A66C2; }
+
+.badge-founder { background: linear-gradient(135deg, #FBBF24, #F59E0B); color: white; font-size: 10px; font-weight: bold; padding: 2px 8px; border-radius: 999px; display: inline-flex; align-items: center; gap: 2px; }
+.badge-bot { background: #64748B; color: white; font-size: 10px; font-weight: bold; padding: 2px 8px; border-radius: 999px; }
+
+.filter-tab { flex-shrink: 0; padding: 8px 16px; border-radius: 999px; font-size: 12px; font-weight: 600; transition: all 0.2s; cursor: pointer; border: 1px solid transparent; }
+.filter-tab.active { background: linear-gradient(135deg, #60A5FA, #2563EB); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
+.filter-tab:not(.active) { background: rgba(255,255,255,0.7); border-color: #DBEAFE; color: #1E3A8A; }
+html.dark .filter-tab:not(.active) { background: #1E2732; border-color: #38444D; color: #F7F9F9; }
+
+.login-input { width: 100%; padding: 14px 16px; border-radius: 12px; font-size: 16px; background: #F0F9FF; color: #0F172A; border: 1px solid #DBEAFE; outline: none; transition: all 0.2s; }
+.login-input::placeholder { color: #94A3B8; }
+.login-input:focus { border-color: #3B82F6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+html.dark .login-input { background: #22303C; color: #F7F9F9; border-color: #38444D; }
+html.dark .login-input::placeholder { color: #8B98A5; }
+html.dark .login-input:focus { border-color: #1D9BF0; box-shadow: 0 0 0 3px rgba(29,155,240,0.2); }
+
+.login-label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #1E3A8A; }
+html.dark .login-label { color: #F7F9F9; }
+
+.login-card { background: #FFFFFF; border-radius: 24px; padding: 32px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); border: 1px solid #DBEAFE; }
+html.dark .login-card { background: #1E2732; border-color: #38444D; box-shadow: 0 10px 40px rgba(0,0,0,0.4); }
+
+.eye-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); padding: 4px; color: #3B82F6; cursor: pointer; background: transparent; border: none; }
+html.dark .eye-btn { color: #1D9BF0; }
+
+.tab-auth { flex: 1; text-align: center; padding: 12px 0; font-weight: 600; cursor: pointer; color: #64748B; border-bottom: 2px solid transparent; transition: all 0.2s; font-size: 14px; }
+.tab-auth.active { color: #2563EB; border-bottom-color: #2563EB; }
+html.dark .tab-auth { color: #8B98A5; }
+html.dark .tab-auth.active { color: #1D9BF0; border-bottom-color: #1D9BF0; }
+
+/* Kunci warna teks dark mode */
+html.dark [style*="color:#1E3A8A"], html.dark [style*="color:#0C4A6E"],
+html.dark [style*="color:#475569"], html.dark [style*="color:#64748B"] { color: #F7F9F9 !important; }
+html.dark [style*="color:#94A3B8"] { color: #8B98A5 !important; }
+
+/* Nama clickable */
+.clickable-name { cursor: pointer; }
+.clickable-name:hover { text-decoration: underline; }
+
+/* Follow button */
+.btn-follow { padding: 8px 20px; border-radius: 999px; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.2s; border: none; }
+.btn-follow:not(.following) { background: linear-gradient(135deg, #60A5FA, #2563EB); color: white; }
+.btn-follow.following { background: #DBEAFE; color: #1E40AF; }
+html.dark .btn-follow.following { background: #22303C; color: #F7F9F9; }
+</style>
+</head>
+<body>
+
+<div class="cloud cloud1"></div>
+<div class="cloud cloud2"></div>
+<div class="cloud cloud3"></div>
+
+<!-- ================= LOGIN ================= -->
+<div id="login-page" class="fixed inset-0 z-[100] flex items-center justify-center p-4" style="background:#E8F4FD;">
+    <div class="w-full max-w-sm login-card relative z-10">
+        <div class="text-center mb-6">
+            <div class="w-20 h-20 mx-auto mb-4">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs><linearGradient id="logoA" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#60A5FA"/><stop offset="100%" style="stop-color:#2563EB"/></linearGradient></defs>
+                    <circle cx="50" cy="50" r="48" fill="url(#logoA)"/>
+                    <circle cx="50" cy="50" r="48" fill="none" stroke="#FCD34D" stroke-width="1.5" opacity="0.7"/>
+                    <text x="50" y="68" font-family="Arial, sans-serif" font-size="42" font-weight="900" fill="white" text-anchor="middle">A</text>
+                    <text x="70" y="42" font-family="Arial, sans-serif" font-size="22" font-weight="900" fill="#FCD34D" text-anchor="middle">2</text>
+                </svg>
+            </div>
+            <h1 class="text-3xl font-bold" style="color:#1E3A8A;">Saling Sapa</h1>
+            <p class="text-sm italic mt-1" style="color:#2563EB;">Bebual Bersama</p>
+        </div>
+
+        <div class="flex border-b mb-5" style="border-color:#DBEAFE;">
+            <div id="tab-login" class="tab-auth active" onclick="switchAuthTab('login')">Masuk</div>
+            <div id="tab-register" class="tab-auth" onclick="switchAuthTab('register')">Daftar</div>
+        </div>
+
+        <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4">
+            <div>
+                <label class="login-label">Email</label>
+                <input type="email" id="login-email" required class="login-input" placeholder="email@contoh.com" autocomplete="email">
+            </div>
+            <div>
+                <label class="login-label">Password</label>
+                <div class="relative">
+                    <input type="password" id="login-password" required class="login-input" placeholder="Password Anda" autocomplete="current-password">
+                    <button type="button" onclick="toggleEye('login-password','eye-login')" class="eye-btn"><i data-lucide="eye" id="eye-login" class="w-5 h-5"></i></button>
+                </div>
+            </div>
+            <div id="login-error" class="text-red-500 text-sm hidden text-center font-medium"></div>
+            <button type="submit" class="w-full py-3.5 rounded-xl font-semibold shadow-lg text-white" style="background: linear-gradient(135deg, #60A5FA, #2563EB);">Masuk</button>
+        </form>
+
+        <form id="form-register" class="hidden space-y-4" onsubmit="handleRegister(event)">
+            <div>
+                <label class="login-label">Username</label>
+                <input type="text" id="reg-username" required class="login-input" placeholder="username unik" autocomplete="username">
+            </div>
+            <div>
+                <label class="login-label">Email</label>
+                <input type="email" id="reg-email" required class="login-input" placeholder="email@contoh.com" autocomplete="email">
+            </div>
+            <div>
+                <label class="login-label">Password (min. 6 karakter)</label>
+                <div class="relative">
+                    <input type="password" id="reg-password" required minlength="6" class="login-input" placeholder="Buat password" autocomplete="new-password">
+                    <button type="button" onclick="toggleEye('reg-password','eye-reg')" class="eye-btn"><i data-lucide="eye" id="eye-reg" class="w-5 h-5"></i></button>
+                </div>
+            </div>
+            <div id="register-error" class="text-red-500 text-sm hidden text-center font-medium"></div>
+            <button type="submit" class="w-full py-3.5 rounded-xl font-semibold shadow-lg text-white" style="background: linear-gradient(135deg, #34D399, #059669);">Daftar Sekarang</button>
+            <p class="text-xs text-center" style="color:#64748B;">Dengan mendaftar, Anda setuju dengan aturan komunitas Saling Sapa.</p>
+        </form>
+    </div>
+</div>
+
+<!-- ================= MAIN APP ================= -->
+<div id="main-app" class="hidden relative z-10 flex flex-col min-h-screen">
+
+<header class="sticky top-0 z-40 app-header">
+    <div class="max-w-2xl mx-auto flex justify-between items-center px-4 py-3">
+        <div class="flex items-center gap-2.5 cursor-pointer" onclick="showPage('home')">
+            <div class="w-9 h-9">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs><linearGradient id="logoH" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#60A5FA"/><stop offset="100%" style="stop-color:#2563EB"/></linearGradient></defs>
+                    <circle cx="50" cy="50" r="48" fill="url(#logoH)"/>
+                    <text x="50" y="68" font-family="Arial, sans-serif" font-size="42" font-weight="900" fill="white" text-anchor="middle">A</text>
+                    <text x="70" y="42" font-family="Arial, sans-serif" font-size="22" font-weight="900" fill="#FCD34D" text-anchor="middle">2</text>
+                </svg>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg leading-tight" style="color:#1E3A8A;">Saling Sapa</h1>
+                <p class="text-[10px] italic" style="color:#2563EB;">Bebual Bersama</p>
+            </div>
+        </div>
+        <button onclick="showPage('settings')" class="p-2.5 rounded-full" style="background:#DBEAFE; color:#1E3A8A;">
+            <i data-lucide="settings" class="w-5 h-5"></i>
+        </button>
+    </div>
+</header>
+
+<main class="flex-1 max-w-2xl w-full mx-auto pb-24">
+
+<!-- HOME -->
+<div id="page-home" class="page">
+    <div class="sticky top-[60px] z-30 px-4 py-3" style="background: rgba(232,244,253,0.9); backdrop-filter: blur(8px);">
+        <div class="flex gap-2 overflow-x-auto no-scrollbar">
+            <button onclick="filterFeed('all', this)" class="filter-tab active">✨ Semua</button>
+            <button onclick="filterFeed('instagram', this)" class="filter-tab">📷 Instagram</button>
+            <button onclick="filterFeed('twitter', this)" class="filter-tab">🐦 Twitter</button>
+            <button onclick="filterFeed('facebook', this)" class="filter-tab">📘 Facebook</button>
+            <button onclick="filterFeed('linkedin', this)" class="filter-tab">💼 LinkedIn</button>
+        </div>
+    </div>
+    <div id="feed-container" class="px-3 space-y-3"></div>
+</div>
+
+<!-- SEARCH -->
+<div id="page-search" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="showPage('home')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg">Cari</h2>
+    </div>
+    <div class="relative mb-6">
+        <i data-lucide="search" class="absolute left-4 top-3.5 w-5 h-5" style="color:#2563EB;"></i>
+        <input type="text" id="search-input" oninput="performSearch()" placeholder="Ketik nama atau #tagar..." class="login-input" style="padding-left: 48px;">
+    </div>
+    <div id="search-results">
+        <h3 class="text-xs font-bold uppercase mb-3" style="color:#2563EB;">🔥 Trending Hari Ini</h3>
+        <div class="space-y-2 mb-6">
+            <div class="card p-3 cursor-pointer"><p class="font-semibold text-sm">#SalingSapa</p><p class="text-xs" style="color:#2563EB;">1.2K postingan</p></div>
+            <div class="card p-3 cursor-pointer"><p class="font-semibold text-sm">#BebualBersama</p><p class="text-xs" style="color:#2563EB;">890 postingan</p></div>
+            <div class="card p-3 cursor-pointer"><p class="font-semibold text-sm">#SapaSahabat</p><p class="text-xs" style="color:#2563EB;">650 postingan</p></div>
+        </div>
+        <h3 class="text-xs font-bold uppercase mb-3" style="color:#2563EB;">👥 Saran Untuk Anda</h3>
+        <div id="suggested-users" class="space-y-2"></div>
+    </div>
+</div>
+
+<!-- NOTIF -->
+<div id="page-notif" class="page hidden px-4 py-4">
+    <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+            <button onclick="showPage('home')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+            <h2 class="font-bold text-lg">Notifikasi</h2>
+        </div>
+        <button onclick="clearNotifications()" class="text-xs font-medium" style="color:#DC2626;">Bersihkan</button>
+    </div>
+    <div id="notif-container" class="space-y-2"></div>
+</div>
+
+<!-- PROFILE SENDIRI -->
+<div id="page-profile" class="page hidden">
+    <div class="flex items-center gap-2 px-4 py-3">
+        <button onclick="showPage('home')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg" id="profile-username-header">@username</h2>
+    </div>
+    <div class="px-4">
+        <div class="card p-5 fade-in">
+            <div class="flex justify-center mb-4">
+                <div id="profile-avatar" class="w-28 h-28 rounded-full avatar-svg" style="box-shadow: 0 0 0 3px #3B82F6;">
+                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                </div>
+            </div>
+            <div class="text-center mb-3">
+                <h2 class="text-xl font-bold flex items-center justify-center gap-1.5 flex-wrap">
+                    <span id="profile-name">Nama</span>
+                    <span id="profile-check"></span>
+                </h2>
+                <p id="profile-subtitle" class="text-sm font-medium mt-0.5" style="color:#2563EB; display:none;">Founder Saling Sapa</p>
+                <p id="profile-bio-text" class="text-sm mt-1.5" style="opacity:0.85;">Bio pengguna</p>
+                <p class="text-xs mt-1 flex items-center justify-center gap-1" style="color:#2563EB;"><i data-lucide="map-pin" class="w-3 h-3"></i><span id="profile-city">Kota</span></p>
+            </div>
+            <div class="flex justify-around py-3 border-y" style="border-color:#DBEAFE;">
+                <div class="text-center"><p class="font-bold text-lg" id="stat-posts">0</p><p class="text-xs" style="opacity:0.75;">Postingan</p></div>
+                <div class="text-center cursor-pointer" onclick="openFollowList('my', 'followers')"><p class="font-bold text-lg" id="stat-followers">0</p><p class="text-xs" style="opacity:0.75;">Pengikut</p></div>
+                <div class="text-center cursor-pointer" onclick="openFollowList('my', 'following')"><p class="font-bold text-lg" id="stat-following">0</p><p class="text-xs" style="opacity:0.75;">Mengikuti</p></div>
+            </div>
+            <div class="flex gap-2 mt-4">
+                <button onclick="showPage('edit-profile')" class="flex-1 py-2.5 rounded-xl font-semibold text-sm text-white" style="background: linear-gradient(135deg, #60A5FA, #2563EB);">Edit Profil</button>
+                <button onclick="shareProfile()" class="flex-1 py-2.5 rounded-xl font-semibold text-sm" style="background:#DBEAFE; color:#1E40AF;">Bagikan</button>
+            </div>
+        </div>
+        <div class="card p-4 mt-3">
+            <h3 class="text-xs font-bold mb-3 flex items-center gap-1.5"><i data-lucide="link" class="w-3.5 h-3.5"></i> SOSIAL MEDIA</h3>
+            <div class="grid grid-cols-2 gap-2">
+                <div class="social-box" onclick="openSocial('ig')"><div class="icon-wrap" style="background:#E1306C;"><i data-lucide="instagram" class="w-4 h-4"></i></div><div class="flex-1 min-w-0"><p class="text-[10px] font-bold uppercase" style="color:#E1306C;">Instagram</p><p class="text-xs truncate" id="social-ig-val" style="opacity:0.75;">Belum diisi</p></div></div>
+                <div class="social-box" onclick="openSocial('tw')"><div class="icon-wrap" style="background:#1DA1F2;"><i data-lucide="twitter" class="w-4 h-4"></i></div><div class="flex-1 min-w-0"><p class="text-[10px] font-bold uppercase" style="color:#1DA1F2;">Twitter</p><p class="text-xs truncate" id="social-tw-val" style="opacity:0.75;">Belum diisi</p></div></div>
+                <div class="social-box" onclick="openSocial('fb')"><div class="icon-wrap" style="background:#1877F2;"><i data-lucide="facebook" class="w-4 h-4"></i></div><div class="flex-1 min-w-0"><p class="text-[10px] font-bold uppercase" style="color:#1877F2;">Facebook</p><p class="text-xs truncate" id="social-fb-val" style="opacity:0.75;">Belum diisi</p></div></div>
+                <div class="social-box" onclick="openSocial('li')"><div class="icon-wrap" style="background:#0A66C2;"><i data-lucide="linkedin" class="w-4 h-4"></i></div><div class="flex-1 min-w-0"><p class="text-[10px] font-bold uppercase" style="color:#0A66C2;">LinkedIn</p><p class="text-xs truncate" id="social-li-val" style="opacity:0.75;">Belum diisi</p></div></div>
+            </div>
+        </div>
+    </div>
+    <div class="flex border-b mt-4" style="border-color:#DBEAFE;">
+        <div class="profile-tab active" onclick="switchProfileTab('my','foto', this)"><i data-lucide="grid-3x3" class="w-4 h-4 inline-block"></i> Foto</div>
+        <div class="profile-tab" onclick="switchProfileTab('my','statistik', this)"><i data-lucide="bar-chart-3" class="w-4 h-4 inline-block"></i> Statistik</div>
+        <div class="profile-tab" onclick="switchProfileTab('my','video', this)"><i data-lucide="video" class="w-4 h-4 inline-block"></i> Video</div>
+    </div>
+    <div id="tab-content-my" class="p-1">
+        <div id="tab-my-foto" class="post-grid">
+            <div class="post-grid-item"><i data-lucide="image"></i></div>
+            <div class="post-grid-item"><i data-lucide="image"></i></div>
+            <div class="post-grid-item"><i data-lucide="image"></i></div>
+        </div>
+        <div id="tab-my-statistik" class="hidden p-3 space-y-3">
+            <div class="grid grid-cols-2 gap-3">
+                <div class="card p-3"><p class="text-xs" style="opacity:0.75;">Total Suka</p><p class="text-2xl font-bold" style="color:#2563EB;" id="my-likes">0</p></div>
+                <div class="card p-3"><p class="text-xs" style="opacity:0.75;">Komentar</p><p class="text-2xl font-bold" style="color:#2563EB;">0</p></div>
+                <div class="card p-3"><p class="text-xs" style="opacity:0.75;">Jangkauan</p><p class="text-2xl font-bold" style="color:#2563EB;">0</p></div>
+                <div class="card p-3"><p class="text-xs" style="opacity:0.75;">Bagikan</p><p class="text-2xl font-bold" style="color:#2563EB;">0</p></div>
+            </div>
+            <div class="card p-4">
+                <h4 class="text-xs font-bold mb-3">📊 Aktivitas 7 Hari Terakhir</h4>
+                <div class="flex items-end justify-between gap-2 h-24">
+                    <div class="flex-1 flex flex-col items-center gap-1"><div class="w-full rounded-t" style="height: 30%; background: linear-gradient(180deg, #60A5FA, #3B82F6);"></div><span class="text-[10px]" style="opacity:0.75;">Sen</span></div>
+                    <div class="flex-1 flex flex-col items-center gap-1"><div class="w-full rounded-t" style="height: 50%; background: linear-gradient(180deg, #60A5FA, #3B82F6);"></div><span class="text-[10px]" style="opacity:0.75;">Sel</span></div>
+                    <div class="flex-1 flex flex-col items-center gap-1"><div class="w-full rounded-t" style="height: 40%; background: linear-gradient(180deg, #60A5FA, #3B82F6);"></div><span class="text-[10px]" style="opacity:0.75;">Rab</span></div>
+                    <div class="flex-1 flex flex-col items-center gap-1"><div class="w-full rounded-t" style="height: 75%; background: linear-gradient(180deg, #60A5FA, #3B82F6);"></div><span class="text-[10px]" style="opacity:0.75;">Kam</span></div>
+                    <div class="flex-1 flex flex-col items-center gap-1"><div class="w-full rounded-t" style="height: 60%; background: linear-gradient(180deg, #60A5FA, #3B82F6);"></div><span class="text-[10px]" style="opacity:0.75;">Jum</span></div>
+                    <div class="flex-1 flex flex-col items-center gap-1"><div class="w-full rounded-t" style="height: 90%; background: linear-gradient(180deg, #60A5FA, #3B82F6);"></div><span class="text-[10px]" style="opacity:0.75;">Sab</span></div>
+                    <div class="flex-1 flex flex-col items-center gap-1"><div class="w-full rounded-t" style="height: 70%; background: linear-gradient(180deg, #60A5FA, #3B82F6);"></div><span class="text-[10px]" style="opacity:0.75;">Min</span></div>
+                </div>
+            </div>
+        </div>
+        <div id="tab-my-video" class="hidden"><div class="text-center py-16"><i data-lucide="video" class="w-12 h-12 mx-auto mb-3" style="opacity:0.5;"></i><p class="text-sm" style="opacity:0.75;">Belum ada video</p></div></div>
+    </div>
+</div>
+
+<!-- PROFILE USER LAIN -->
+<div id="page-other-profile" class="page hidden">
+    <div class="flex items-center gap-2 px-4 py-3">
+        <button onclick="backFromOtherProfile()" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg" id="other-profile-username-header">@username</h2>
+    </div>
+    <div class="px-4">
+        <div class="card p-5 fade-in">
+            <div class="flex justify-center mb-4">
+                <div id="other-profile-avatar" class="w-28 h-28 rounded-full avatar-svg" style="box-shadow: 0 0 0 3px #3B82F6;">
+                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                </div>
+            </div>
+            <div class="text-center mb-3">
+                <h2 class="text-xl font-bold flex items-center justify-center gap-1.5 flex-wrap">
+                    <span id="other-profile-name">Nama</span>
+                    <span id="other-profile-check"></span>
+                </h2>
+                <p id="other-profile-subtitle" class="text-sm font-medium mt-0.5" style="color:#2563EB; display:none;">Founder Saling Sapa</p>
+                <p id="other-profile-bio" class="text-sm mt-1.5" style="opacity:0.85;">Bio pengguna</p>
+                <p class="text-xs mt-1 flex items-center justify-center gap-1" style="color:#2563EB;"><i data-lucide="map-pin" class="w-3 h-3"></i><span id="other-profile-city">Kota</span></p>
+            </div>
+            <div class="flex justify-around py-3 border-y" style="border-color:#DBEAFE;">
+                <div class="text-center"><p class="font-bold text-lg" id="other-stat-posts">0</p><p class="text-xs" style="opacity:0.75;">Postingan</p></div>
+                <div class="text-center cursor-pointer" onclick="openFollowList('other', 'followers')"><p class="font-bold text-lg" id="other-stat-followers">0</p><p class="text-xs" style="opacity:0.75;">Pengikut</p></div>
+                <div class="text-center cursor-pointer" onclick="openFollowList('other', 'following')"><p class="font-bold text-lg" id="other-stat-following">0</p><p class="text-xs" style="opacity:0.75;">Mengikuti</p></div>
+            </div>
+            <div class="flex gap-2 mt-4">
+                <button id="follow-btn" onclick="toggleFollow()" class="flex-1 btn-follow">Follow</button>
+                <button onclick="alert('Fitur pesan akan aktif setelah Firebase aktif.')" class="flex-1 py-2.5 rounded-xl font-semibold text-sm" style="background:#DBEAFE; color:#1E40AF;">Kirim Pesan</button>
+            </div>
+        </div>
+        <div id="other-social-section" class="card p-4 mt-3">
+            <h3 class="text-xs font-bold mb-3 flex items-center gap-1.5"><i data-lucide="link" class="w-3.5 h-3.5"></i> SOSIAL MEDIA</h3>
+            <div class="grid grid-cols-2 gap-2">
+                <div class="social-box" onclick="openOtherSocial('ig')"><div class="icon-wrap" style="background:#E1306C;"><i data-lucide="instagram" class="w-4 h-4"></i></div><div class="flex-1 min-w-0"><p class="text-[10px] font-bold uppercase" style="color:#E1306C;">Instagram</p><p class="text-xs truncate" id="other-social-ig-val" style="opacity:0.75;">Belum diisi</p></div></div>
+                <div class="social-box" onclick="openOtherSocial('tw')"><div class="icon-wrap" style="background:#1DA1F2;"><i data-lucide="twitter" class="w-4 h-4"></i></div><div class="flex-1 min-w-0"><p class="text-[10px] font-bold uppercase" style="color:#1DA1F2;">Twitter</p><p class="text-xs truncate" id="other-social-tw-val" style="opacity:0.75;">Belum diisi</p></div></div>
+                <div class="social-box" onclick="openOtherSocial('fb')"><div class="icon-wrap" style="background:#1877F2;"><i data-lucide="facebook" class="w-4 h-4"></i></div><div class="flex-1 min-w-0"><p class="text-[10px] font-bold uppercase" style="color:#1877F2;">Facebook</p><p class="text-xs truncate" id="other-social-fb-val" style="opacity:0.75;">Belum diisi</p></div></div>
+                <div class="social-box" onclick="openOtherSocial('li')"><div class="icon-wrap" style="background:#0A66C2;"><i data-lucide="linkedin" class="w-4 h-4"></i></div><div class="flex-1 min-w-0"><p class="text-[10px] font-bold uppercase" style="color:#0A66C2;">LinkedIn</p><p class="text-xs truncate" id="other-social-li-val" style="opacity:0.75;">Belum diisi</p></div></div>
+            </div>
+        </div>
+    </div>
+    <div class="flex border-b mt-4" style="border-color:#DBEAFE;">
+        <div class="profile-tab active" onclick="switchProfileTab('other','foto', this)"><i data-lucide="grid-3x3" class="w-4 h-4 inline-block"></i> Foto</div>
+        <div class="profile-tab" onclick="switchProfileTab('other','statistik', this)"><i data-lucide="bar-chart-3" class="w-4 h-4 inline-block"></i> Statistik</div>
+        <div class="profile-tab" onclick="switchProfileTab('other','video', this)"><i data-lucide="video" class="w-4 h-4 inline-block"></i> Video</div>
+    </div>
+    <div id="tab-content-other" class="p-1">
+        <div id="tab-other-foto" class="post-grid">
+            <div class="post-grid-item"><i data-lucide="image"></i></div>
+            <div class="post-grid-item"><i data-lucide="image"></i></div>
+        </div>
+        <div id="tab-other-statistik" class="hidden p-3">
+            <div class="card p-4 text-center">
+                <p class="text-xs" style="opacity:0.75;">Statistik detail user lain akan hadir setelah Firebase aktif.</p>
+            </div>
+        </div>
+        <div id="tab-other-video" class="hidden"><div class="text-center py-16"><i data-lucide="video" class="w-12 h-12 mx-auto mb-3" style="opacity:0.5;"></i><p class="text-sm" style="opacity:0.75;">Belum ada video</p></div></div>
+    </div>
+</div>
+
+<!-- FOLLOW LIST -->
+<div id="page-follow-list" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="backFromFollowList()" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg" id="follow-list-title">Pengikut</h2>
+    </div>
+    <div id="follow-list-content" class="space-y-2"></div>
+</div>
+
+<!-- EDIT PROFILE -->
+<div id="page-edit-profile" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="showPage('profile')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg">Edit Profil</h2>
+    </div>
+    <div class="card p-5 mb-3">
+        <div class="flex flex-col items-center mb-5">
+            <div id="edit-avatar" class="w-24 h-24 rounded-full avatar-svg mb-3">
+                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </div>
+            <input type="file" id="photo-input" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
+            <button onclick="document.getElementById('photo-input').click()" class="text-sm font-semibold" style="color:#2563EB;">📷 Ubah Foto</button>
+        </div>
+        <div class="space-y-3">
+            <div><label class="login-label">Nama Tampilan</label><input type="text" id="edit-name" class="login-input"></div>
+            <div><label class="login-label">Bio</label><textarea id="edit-bio" rows="3" class="login-input" style="resize:none;"></textarea></div>
+            <div><label class="login-label">Kota</label><input type="text" id="edit-city" class="login-input"></div>
+        </div>
+    </div>
+    <div class="card p-5 mb-3">
+        <h3 class="text-xs font-bold mb-3">SOSIAL MEDIA</h3>
+        <div class="space-y-3">
+            <div><label class="block text-xs font-semibold mb-1" style="color:#E1306C;">📷 Instagram</label><input type="text" id="edit-ig" placeholder="@username" class="login-input"></div>
+            <div><label class="block text-xs font-semibold mb-1" style="color:#1DA1F2;">🐦 Twitter</label><input type="text" id="edit-tw" placeholder="@username" class="login-input"></div>
+            <div><label class="block text-xs font-semibold mb-1" style="color:#1877F2;">📘 Facebook</label><input type="text" id="edit-fb" placeholder="Nama profil" class="login-input"></div>
+            <div><label class="block text-xs font-semibold mb-1" style="color:#0A66C2;">💼 LinkedIn</label><input type="text" id="edit-li" placeholder="Nama profil" class="login-input"></div>
+        </div>
+    </div>
+    <button onclick="saveProfile()" class="w-full py-3 rounded-xl font-semibold text-white" style="background: linear-gradient(135deg, #60A5FA, #2563EB);">Simpan Perubahan</button>
+</div>
+
+<!-- PUSAT AKUN -->
+<div id="page-account" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="showPage('settings')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg">Pusat Akun</h2>
+    </div>
+    <div class="card overflow-hidden mb-3">
+        <div class="p-4 border-b" style="border-color:#DBEAFE;"><p class="text-xs font-semibold" style="color:#2563EB;">USERNAME</p><p class="font-medium" id="acc-username">-</p></div>
+        <div class="p-4 border-b" style="border-color:#DBEAFE;"><p class="text-xs font-semibold" style="color:#2563EB;">EMAIL</p><p class="font-medium" id="acc-email">-</p></div>
+        <div class="p-4 border-b" style="border-color:#DBEAFE;"><p class="text-xs font-semibold" style="color:#2563EB;">KOTA</p><p class="font-medium" id="acc-city">-</p></div>
+        <div class="p-4"><p class="text-xs font-semibold" style="color:#2563EB;">TANGGAL BERGABUNG</p><p class="font-medium" id="acc-joined">-</p></div>
+    </div>
+    <button onclick="alert('Fitur ganti sandi akan hadir setelah Firebase aktif.')" class="w-full p-4 card font-semibold flex items-center justify-center gap-2" style="color:#2563EB;"><i data-lucide="key" class="w-5 h-5"></i> Ganti Sandi</button>
+</div>
+
+<!-- KEAMANAN -->
+<div id="page-security" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="showPage('settings')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg">Keamanan</h2>
+    </div>
+    <div class="card overflow-hidden">
+        <div class="p-4 border-b flex items-center gap-3" style="border-color:#DBEAFE;"><i data-lucide="lock" class="w-5 h-5" style="color:#2563EB;"></i><div class="flex-1"><p class="font-semibold text-sm">Kata Sandi</p><p class="text-xs" style="opacity:0.75;">Terakhir diubah 30 hari lalu</p></div><button class="text-xs font-semibold" style="color:#2563EB;">Ubah</button></div>
+        <div class="p-4 border-b flex items-center gap-3" style="border-color:#DBEAFE;"><i data-lucide="smartphone" class="w-5 h-5" style="color:#2563EB;"></i><div class="flex-1"><p class="font-semibold text-sm">Verifikasi 2 Langkah</p><p class="text-xs" style="opacity:0.75;">Belum aktif</p></div><button class="text-xs font-semibold" style="color:#2563EB;">Aktifkan</button></div>
+        <div class="p-4 flex items-center gap-3"><i data-lucide="monitor" class="w-5 h-5" style="color:#2563EB;"></i><div class="flex-1"><p class="font-semibold text-sm">Perangkat Aktif</p><p class="text-xs" style="opacity:0.75;">1 perangkat</p></div></div>
+    </div>
+</div>
+
+<!-- VERIFIKASI -->
+<div id="page-verify" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="showPage('settings')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg">Ajukan Verifikasi</h2>
+    </div>
+    <div class="card p-5 mb-3">
+        <div class="text-center mb-4">
+            <div class="w-16 h-16 mx-auto rounded-full flex items-center justify-center text-white mb-3" style="background: linear-gradient(135deg, #60A5FA, #2563EB);"><i data-lucide="badge-check" class="w-8 h-8"></i></div>
+            <h3 class="font-bold">Centang Biru Saling Sapa</h3>
+        </div>
+        <ul class="space-y-2 text-sm mb-4">
+            <li class="flex gap-2"><span style="color:#2563EB;">✓</span> Akun berusia minimal 30 hari.</li>
+            <li class="flex gap-2"><span style="color:#2563EB;">✓</span> Memiliki minimal 100 pengikut.</li>
+            <li class="flex gap-2"><span style="color:#2563EB;">✓</span> Aktif memposting minimal 1 konten/minggu.</li>
+            <li class="flex gap-2"><span style="color:#2563EB;">✓</span> Tidak melanggar aturan komunitas.</li>
+        </ul>
+        <div id="verify-status-box" class="p-3 rounded-xl text-sm font-medium text-center mb-4"></div>
+        <textarea id="verify-message" rows="3" placeholder="Tulis alasan Anda ingin diverifikasi..." class="login-input mb-3" style="resize:none;"></textarea>
+        <button onclick="submitVerification()" class="w-full py-3 rounded-xl font-semibold text-white" style="background: linear-gradient(135deg, #60A5FA, #2563EB);">Ajukan Sekarang</button>
+    </div>
+    <div id="verify-thread" class="hidden card p-4">
+        <h4 class="font-bold text-sm mb-3 flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4" style="color:#2563EB;"></i> Percakapan Verifikasi</h4>
+        <div id="verify-thread-content" class="space-y-2 max-h-60 overflow-y-auto"></div>
+    </div>
+</div>
+
+<!-- ABOUT -->
+<div id="page-about" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="showPage('settings')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg">Tentang</h2>
+    </div>
+    <div class="card p-6 text-center">
+        <div class="w-24 h-24 mx-auto mb-4">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs><linearGradient id="lgAbout" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#60A5FA"/><stop offset="100%" style="stop-color:#2563EB"/></linearGradient></defs>
+                <circle cx="50" cy="50" r="48" fill="url(#lgAbout)"/>
+                <text x="50" y="68" font-family="Arial, sans-serif" font-size="42" font-weight="900" fill="white" text-anchor="middle">A</text>
+                <text x="70" y="42" font-family="Arial, sans-serif" font-size="22" font-weight="900" fill="#FCD34D" text-anchor="middle">2</text>
+            </svg>
+        </div>
+        <h2 class="text-2xl font-bold" style="background: linear-gradient(135deg, #60A5FA, #2563EB); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Saling Sapa</h2>
+        <p class="text-sm" style="opacity:0.75;">Versi 5.2 • Local Server</p>
+
+        <div class="rounded-2xl p-5 my-5" style="background: rgba(37,99,235,0.08);">
+            <p class="font-bold mb-2" style="color:#2563EB;">Menyapa Bebual Bersama</p>
+            <p class="text-sm mb-4">Aplikasi sosial untuk kumpul, ngobrol, dan berbagi bareng teman-teman.</p>
+            <div class="text-center text-sm space-y-1">
+                <p>✨ <b>Real-time sync</b></p>
+                <p style="opacity:0.75;">via Realtime Online</p>
+                <p>🌐 Server: <b>Local</b></p>
+            </div>
+        </div>
+
+        <div class="border-t pt-5" style="border-color:#DBEAFE;">
+            <p class="font-bold mb-3" style="color:#F59E0B;">👑 Founder</p>
+            <p class="font-bold text-lg mb-2">Shank Anggara From Ulumonggo</p>
+            <p class="text-sm mb-1">📧 anggishankjebone@gmail.com</p>
+        </div>
+
+        <div class="border-t mt-5 pt-5" style="border-color:#DBEAFE;">
+            <p class="text-xs" style="opacity:0.7;">© 2026 Shank Anggara From Ulumonggo</p>
+            <p class="text-xs" style="opacity:0.7;">All Rights Reserved</p>
+        </div>
+    </div>
+</div>
+
+<!-- VERIFIKASI USER (FOUNDER) -->
+<div id="page-verify-users" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="showPage('settings')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg">Verifikasi User 👑</h2>
+    </div>
+    <div id="verify-users-list" class="space-y-2"></div>
+</div>
+
+<!-- KELOLA USER (FOUNDER) -->
+<div id="page-manage-users" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="showPage('settings')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg">Kelola Pengguna 👑</h2>
+    </div>
+    <div id="manage-users-list" class="space-y-2"></div>
+</div>
+
+<!-- STATISTIK (FOUNDER) -->
+<div id="page-statistics" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="showPage('settings')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg">Statistik 👑</h2>
+    </div>
+    <div id="statistics-content"></div>
+</div>
+
+<!-- ONLINE USERS -->
+<div id="page-online-users" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="showPage('settings')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg">Pengguna Online</h2>
+        <span class="ml-auto text-xs px-2 py-1 rounded-full font-medium" style="background:#DCFCE7; color:#16A34A;" id="online-count">0</span>
+    </div>
+    <div id="online-users-list" class="space-y-2"></div>
+</div>
+
+<!-- SETTINGS -->
+<div id="page-settings" class="page hidden px-4 py-4">
+    <div class="flex items-center gap-2 mb-4">
+        <button onclick="showPage('home')" class="p-2 rounded-full card"><i data-lucide="arrow-left" class="w-5 h-5"></i></button>
+        <h2 class="font-bold text-lg">Pengaturan</h2>
+    </div>
+    <div class="card p-4 mb-4 flex items-center gap-3">
+        <div class="w-14 h-14 rounded-full avatar-svg"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
+        <div class="flex-1"><h3 class="font-bold" id="settings-name">User</h3><p class="text-xs" style="color:#2563EB;" id="settings-sub">@user</p></div>
+        <button onclick="showPage('profile')" class="text-xs font-semibold" style="color:#2563EB;">Lihat Profil</button>
+    </div>
+    <div class="card overflow-hidden mb-3">
+        <button onclick="showPage('edit-profile')" class="w-full flex items-center gap-3 p-4 border-b" style="border-color:#DBEAFE;"><i data-lucide="user" class="w-5 h-5" style="color:#2563EB;"></i><span class="text-sm font-medium flex-1 text-left">Edit Profil</span><i data-lucide="chevron-right" class="w-4 h-4" style="opacity:0.5;"></i></button>
+        <button onclick="showPage('online-users')" class="w-full flex items-center gap-3 p-4 border-b" style="border-color:#DBEAFE;"><i data-lucide="users" class="w-5 h-5" style="color:#10B981;"></i><span class="text-sm font-medium flex-1 text-left">Pengguna Online</span><i data-lucide="chevron-right" class="w-4 h-4" style="opacity:0.5;"></i></button>
+        <button onclick="showPage('account')" class="w-full flex items-center gap-3 p-4 border-b" style="border-color:#DBEAFE;"><i data-lucide="at-sign" class="w-5 h-5" style="color:#2563EB;"></i><span class="text-sm font-medium flex-1 text-left">Pusat Akun</span><i data-lucide="chevron-right" class="w-4 h-4" style="opacity:0.5;"></i></button>
+        <button onclick="showPage('security')" class="w-full flex items-center gap-3 p-4 border-b" style="border-color:#DBEAFE;"><i data-lucide="shield" class="w-5 h-5" style="color:#2563EB;"></i><span class="text-sm font-medium flex-1 text-left">Keamanan</span><i data-lucide="chevron-right" class="w-4 h-4" style="opacity:0.5;"></i></button>
+        <button onclick="showPage('verify')" class="w-full flex items-center gap-3 p-4 border-b" style="border-color:#DBEAFE;"><i data-lucide="badge-check" class="w-5 h-5" style="color:#2563EB;"></i><span class="text-sm font-medium flex-1 text-left">Ajukan Verifikasi</span><i data-lucide="chevron-right" class="w-4 h-4" style="opacity:0.5;"></i></button>
+        <button onclick="showPage('about')" class="w-full flex items-center gap-3 p-4"><i data-lucide="info" class="w-5 h-5" style="color:#2563EB;"></i><span class="text-sm font-medium flex-1 text-left">Tentang Aplikasi</span><i data-lucide="chevron-right" class="w-4 h-4" style="opacity:0.5;"></i></button>
+    </div>
+    <div id="founder-menu" class="hidden rounded-2xl overflow-hidden mb-3" style="background: linear-gradient(135deg, #FFFBEB, #FEF3C7); border: 1px solid #FCD34D;">
+        <div class="px-4 py-2" style="background: linear-gradient(135deg, #FBBF24, #F59E0B);"><p class="text-xs font-bold text-white">👑 MENU FOUNDER</p></div>
+        <button onclick="showPage('verify-users')" class="w-full flex items-center gap-3 p-4 border-b" style="border-color:#FDE68A;"><i data-lucide="badge-check" class="w-5 h-5" style="color:#F59E0B;"></i><span class="text-sm font-medium flex-1 text-left" style="color:#78350F;">Verifikasi User</span><span id="pending-verify-count" class="text-xs px-2 py-0.5 rounded-full font-medium text-white" style="background:#EF4444;">0</span><i data-lucide="chevron-right" class="w-4 h-4" style="color:#F59E0B;"></i></button>
+        <button onclick="showPage('manage-users')" class="w-full flex items-center gap-3 p-4 border-b" style="border-color:#FDE68A;"><i data-lucide="users" class="w-5 h-5" style="color:#F59E0B;"></i><span class="text-sm font-medium flex-1 text-left" style="color:#78350F;">Kelola Pengguna</span><i data-lucide="chevron-right" class="w-4 h-4" style="color:#F59E0B;"></i></button>
+        <button onclick="showPage('statistics')" class="w-full flex items-center gap-3 p-4"><i data-lucide="bar-chart-3" class="w-5 h-5" style="color:#F59E0B;"></i><span class="text-sm font-medium flex-1 text-left" style="color:#78350F;">Statistik</span><i data-lucide="chevron-right" class="w-4 h-4" style="color:#F59E0B;"></i></button>
+    </div>
+    <div class="card overflow-hidden mb-3">
+        <div class="flex items-center gap-3 p-4">
+            <i data-lucide="moon" class="w-5 h-5" style="color:#2563EB;"></i>
+            <span class="text-sm font-medium flex-1">Mode Gelap</span>
+            <div id="dark-toggle" class="toggle-bg toggle-off" onclick="toggleDark()"><div class="toggle-dot"></div></div>
+        </div>
+    </div>
+    <button onclick="logout()" class="w-full flex items-center justify-center gap-2 p-4 rounded-2xl font-semibold" style="background:#FEE2E2; color:#DC2626;"><i data-lucide="log-out" class="w-5 h-5"></i> Keluar Akun</button>
+    <p class="text-center text-xs mt-6" style="color:#2563EB;">© 2026 Shank Anggara From Ulumonggo. All Rights Reserved.</p>
+</div>
+
+</main>
+
+<nav class="fixed bottom-0 left-0 right-0 z-40 app-bottom-nav">
+    <div class="max-w-2xl mx-auto flex justify-around items-center py-2">
+        <button onclick="showPage('home')" class="bottom-nav-btn active" data-nav="home"><i data-lucide="home" class="w-6 h-6 nav-icon"></i><span class="nav-label nav-icon">Home</span></button>
+        <button onclick="showPage('search')" class="bottom-nav-btn" data-nav="search"><i data-lucide="search" class="w-6 h-6 nav-icon"></i><span class="nav-label nav-icon">Search</span></button>
+        <button onclick="openPostModal()" class="bottom-nav-btn" data-nav="post"><div class="w-10 h-10 rounded-full flex items-center justify-center shadow-md" style="background: linear-gradient(135deg, #60A5FA, #2563EB);"><i data-lucide="plus" class="w-5 h-5" style="color:white;"></i></div></button>
+        <button onclick="showPage('notif')" class="bottom-nav-btn relative" data-nav="notif"><i data-lucide="bell" class="w-6 h-6 nav-icon"></i><span class="nav-label nav-icon">Notif</span><span id="nav-notif-dot" class="hidden absolute top-1 right-2 w-2 h-2 bg-red-500 rounded-full"></span></button>
+        <button onclick="showPage('profile')" class="bottom-nav-btn" data-nav="profile"><i data-lucide="user" class="w-6 h-6 nav-icon"></i><span class="nav-label nav-icon">Profil</span></button>
+    </div>
+</nav>
+
+</div>
+
+<!-- MODAL: POST -->
+<div id="post-modal" class="fixed inset-0 z-[85] bg-black/60 hidden items-end justify-center">
+    <div class="rounded-t-3xl w-full max-w-2xl shadow-2xl fade-in max-h-[90vh] flex flex-col card" style="border-radius: 24px 24px 0 0;">
+        <div class="p-4 border-b flex items-center justify-between" style="border-color:#DBEAFE;">
+            <button onclick="closePostModal()" class="font-medium" style="color:#2563EB;">Batal</button>
+            <h3 class="font-bold">Buat Postingan</h3>
+            <div class="w-12"></div>
+        </div>
+        <div class="p-4 flex-1 overflow-y-auto">
+            <textarea id="post-input-modal" rows="5" placeholder="Apa yang ingin Anda bagikan?" class="login-input" style="resize:none;"></textarea>
+            <div class="mt-3">
+                <p class="text-xs font-semibold mb-2" style="color:#2563EB;">POSTING KE:</p>
+                <div class="grid grid-cols-4 gap-2">
+                    <button onclick="togglePostPlatform(this,'instagram')" class="post-platform-btn py-2 rounded-xl border-2 font-semibold text-xs" data-platform="instagram" style="border-color:#E1306C; background: rgba(225,48,108,0.1); color:#E1306C;">📷 IG</button>
+                    <button onclick="togglePostPlatform(this,'twitter')" class="post-platform-btn py-2 rounded-xl border-2 font-semibold text-xs" data-platform="twitter" style="border-color:#1DA1F2; background: rgba(29,161,242,0.1); color:#1DA1F2;">🐦 Twitter</button>
+                    <button onclick="togglePostPlatform(this,'facebook')" class="post-platform-btn py-2 rounded-xl border-2 font-semibold text-xs" data-platform="facebook" style="border-color:#1877F2; background: rgba(24,119,242,0.1); color:#1877F2;">📘 FB</button>
+                    <button onclick="togglePostPlatform(this,'linkedin')" class="post-platform-btn py-2 rounded-xl border-2 font-semibold text-xs" data-platform="linkedin" style="border-color:#0A66C2; background: rgba(10,102,194,0.1); color:#0A66C2;">💼 LI</button>
+                </div>
+            </div>
+        </div>
+        <div class="p-4 border-t" style="border-color:#DBEAFE;">
+            <button onclick="publishPost()" class="w-full py-3 rounded-xl font-semibold text-white" style="background: linear-gradient(135deg, #60A5FA, #2563EB);">Publikasikan</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL: EDIT POST -->
+<div id="edit-post-modal" class="fixed inset-0 z-[86] bg-black/60 hidden items-center justify-center p-4">
+    <div class="card w-full max-w-md p-5">
+        <h3 class="font-bold mb-3">Edit Postingan</h3>
+        <textarea id="edit-post-input" rows="4" class="login-input mb-3" style="resize:none;"></textarea>
+        <div class="flex gap-2">
+            <button onclick="closeEditPost()" class="flex-1 py-2.5 rounded-xl font-medium" style="background:#DBEAFE; color:#1E40AF;">Batal</button>
+            <button onclick="saveEditedPost()" class="flex-1 py-2.5 rounded-xl font-semibold text-white" style="background: linear-gradient(135deg, #60A5FA, #2563EB);">Simpan</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL: FOUNDER MESSAGE -->
+<div id="msg-modal" class="fixed inset-0 z-[95] bg-black/60 hidden items-center justify-center p-4">
+    <div class="card w-full max-w-sm p-5">
+        <h3 class="font-bold mb-3">Kirim Pesan ke User</h3>
+        <textarea id="msg-input" rows="4" placeholder="Tulis pesan..." class="login-input mb-3" style="resize:none;"></textarea>
+        <div class="flex gap-2">
+            <button onclick="closeMsgModal()" class="flex-1 py-2.5 rounded-xl font-medium" style="background:#DBEAFE; color:#1E40AF;">Batal</button>
+            <button onclick="sendFounderMessage()" class="flex-1 py-2.5 rounded-xl font-semibold text-white" style="background: linear-gradient(135deg, #60A5FA, #2563EB);">Kirim</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const FOUNDER_EMAIL = 'anggishankjebone@gmail.com';
+const FOUNDER_HASH = '94a760147d08459c46191f159574424c988f77fc28dca5052abc321a959f948b';
+
+const defaultUsers = {
+    'shankanggara': { username: 'Shank Anggara From Ulumonggo', email: FOUNDER_EMAIL, passHash: FOUNDER_HASH, city: 'Ulumonggo', joined: '1 Januari 2026', bio: 'Mari saling menyapa, bebual bersama tanpa batas.', isFounder: true, verified: true, followers: 1000, following: 10, online: true, isBot: false, social: { ig: '', tw: '', fb: '', li: '' } },
+    'sapabot': { username: 'SapaBot', email: '', passHash: '', city: '', joined: '1 Jan 2026', bio: '🤖 Bot Saling Sapa', isFounder: false, verified: false, isBot: true, online: true, followers: 500, following: 100, social: {} },
+    'kawanbot': { username: 'KawanBot', email: '', passHash: '', city: '', joined: '1 Jan 2026', bio: '🤖 Bot Kawan', isFounder: false, verified: false, isBot: true, online: true, followers: 300, following: 80, social: {} },
+    'halobot': { username: 'HaloBot', email: '', passHash: '', city: '', joined: '1 Jan 2026', bio: '🤖 Bot Penyapa', isFounder: false, verified: false, isBot: true, online: true, followers: 200, following: 60, social: {} },
+    'pendebot': { username: 'PendeBot', email: '', passHash: '', city: '', joined: '1 Jan 2026', bio: '🤖 Bot Pende', isFounder: false, verified: false, isBot: true, online: true, followers: 150, following: 40, social: {} },
+    'mbehalbot': { username: 'MbehalBot', email: '', passHash: '', city: '', joined: '1 Jan 2026', bio: '🤖 Bot Mbehal', isFounder: false, verified: false, isBot: true, online: true, followers: 100, following: 30, social: {} },
+    'yekebot': { username: 'YekeBot', email: '', passHash: '', city: '', joined: '1 Jan 2026', bio: '🤖 Bot Yeke', isFounder: false, verified: false, isBot: true, online: true, followers: 250, following: 50, social: {} },
+    'ngpebot': { username: 'NgpeBot', email: '', passHash: '', city: '', joined: '1 Jan 2026', bio: '🤖 Bot Ngpe', isFounder: false, verified: false, isBot: true, online: true, followers: 180, following: 45, social: {} }
+};
+
+const defaultPosts = [
+    { id: 1, author: 'sapabot', platform: 'twitter', content: 'Selamat datang di Saling Sapa! Mari saling menyapa dan bebual bersama 🤝 #SalingSapa', time: 'Baru saja', likes: 12, isBot: true },
+    { id: 2, author: 'kawanbot', platform: 'instagram', content: 'Hari yang indah untuk memulai sesuatu yang baru. Jangan lupa tersenyum hari ini! ☀️', time: '10 menit lalu', likes: 45, isBot: true },
+    { id: 3, author: 'shankanggara', platform: 'linkedin', content: 'Saya dengan bangga mempersembahkan Saling Sapa - platform untuk saling menyapa, bebual bersama tanpa batas. Mari bergabung! 🚀 #Founder #SalingSapa', time: '30 menit lalu', likes: 1000, isFounder: true },
+    { id: 4, author: 'halobot', platform: 'facebook', content: 'Halo teman-teman Saling Sapa! Apa kabar hari ini? 😊', time: '1 jam lalu', likes: 23, isBot: true },
+    { id: 5, author: 'pendebot', platform: 'twitter', content: 'Jangan lupa istirahat kalau sudah lelah ya! Kesehatan itu nomor satu 💪', time: '2 jam lalu', likes: 18, isBot: true },
+    { id: 6, author: 'mbehalbot', platform: 'instagram', content: 'Pemandangan sore ini sungguh menakjubkan 🌅 #SoreMinggu', time: '3 jam lalu', likes: 67, isBot: true },
+    { id: 7, author: 'yekebot', platform: 'twitter', content: 'Tetap semangat kawan! Hari ini pasti lebih baik dari kemarin 🌟', time: '4 jam lalu', likes: 34, isBot: true },
+    { id: 8, author: 'ngpebot', platform: 'facebook', content: 'Jangan lupa makan siang tepat waktu ya! 😄 #SalingSapa', time: '5 jam lalu', likes: 28, isBot: true }
+];
+
+let users = JSON.parse(localStorage.getItem('ss_users') || 'null') || defaultUsers;
+if (!localStorage.getItem('ss_users')) localStorage.setItem('ss_users', JSON.stringify(users));
+let posts = JSON.parse(localStorage.getItem('ss_posts') || 'null') || defaultPosts;
+if (!localStorage.getItem('ss_posts')) localStorage.setItem('ss_posts', JSON.stringify(posts));
+let notifications = JSON.parse(localStorage.getItem('ss_notifs') || '[]');
+let verifThreads = JSON.parse(localStorage.getItem('ss_verif') || '{}');
+let followData = JSON.parse(localStorage.getItem('ss_follow') || 'null') || {
+    'shankanggara': { followers: ['sapabot','kawanbot','halobot','pendebot','mbehalbot','yekebot','ngpebot'], following: ['sapabot'] },
+    'sapabot': { followers: ['shankanggara'], following: ['shankanggara','kawanbot'] },
+    'kawanbot': { followers: ['shankanggara'], following: ['sapabot'] }
+};
+
+function saveUsers() { localStorage.setItem('ss_users', JSON.stringify(users)); }
+function savePosts() { localStorage.setItem('ss_posts', JSON.stringify(posts)); }
+function saveNotifs() { localStorage.setItem('ss_notifs', JSON.stringify(notifications)); }
+function saveVerif() { localStorage.setItem('ss_verif', JSON.stringify(verifThreads)); }
+function saveFollow() { localStorage.setItem('ss_follow', JSON.stringify(followData)); }
+
+let currentUser = null;
+let currentFilter = 'all';
+let postPlatforms = { instagram: true, twitter: true, facebook: false, linkedin: false };
+let editingPostId = null;
+let msgTarget = null;
+let otherProfileKey = null;
+let followListContext = null;
+let followListType = null;
+
+async function hashPassword(pw) {
+    const buf = new TextEncoder().encode(pw);
+    const hash = await crypto.subtle.digest('SHA-256', buf);
+    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+lucide.createIcons();
+if (localStorage.getItem('ss_dark') === 'true') {
+    document.documentElement.classList.remove('light');
+    document.documentElement.classList.add('dark');
+}
+
+function toggleEye(inputId, iconId) {
+    const inp = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    if (inp.type === 'password') { inp.type = 'text'; icon.setAttribute('data-lucide', 'eye-off'); }
+    else { inp.type = 'password'; icon.setAttribute('data-lucide', 'eye'); }
+    lucide.createIcons();
+}
+
+function switchAuthTab(tab) {
+    document.getElementById('tab-login').classList.remove('active');
+    document.getElementById('tab-register').classList.remove('active');
+    document.getElementById('tab-' + tab).classList.add('active');
+    if (tab === 'login') {
+        document.getElementById('form-login').classList.remove('hidden');
+        document.getElementById('form-register').classList.add('hidden');
+    } else {
+        document.getElementById('form-login').classList.add('hidden');
+        document.getElementById('form-register').classList.remove('hidden');
+    }
+}
+
+async function handleLogin(e) {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value.toLowerCase().trim();
+    const pwd = document.getElementById('login-password').value;
+    const err = document.getElementById('login-error');
+
+    const userKey = Object.keys(users).find(k => (users[k].email || '').toLowerCase() === email && !users[k].isBot);
+    if (!userKey) {
+        err.innerText = '❌ Email belum terdaftar di Saling Sapa.';
+        err.classList.remove('hidden');
+        return;
+    }
+    const inpHash = await hashPassword(pwd);
+    if (users[userKey].passHash !== inpHash) {
+        err.innerText = '❌ Password salah. Coba lagi.';
+        err.classList.remove('hidden');
+        return;
+    }
+    currentUser = users[userKey];
+    currentUser.key = userKey;
+    err.classList.add('hidden');
+    document.getElementById('login-page').classList.add('hidden');
+    document.getElementById('main-app').classList.remove('hidden');
+    initApp();
+}
+
+async function handleRegister(e) {
+    e.preventDefault();
+    const username = document.getElementById('reg-username').value.trim();
+    const email = document.getElementById('reg-email').value.toLowerCase().trim();
+    const pwd = document.getElementById('reg-password').value;
+    const err = document.getElementById('register-error');
+
+    if (username.length < 3) { err.innerText = 'Username minimal 3 karakter.'; err.classList.remove('hidden'); return; }
+    if (pwd.length < 6) { err.innerText = 'Password minimal 6 karakter.'; err.classList.remove('hidden'); return; }
+    const emailExists = Object.values(users).some(u => (u.email || '').toLowerCase() === email);
+    if (emailExists) { err.innerText = 'Email sudah terdaftar.'; err.classList.remove('hidden'); return; }
+    const usernameExists = Object.values(users).some(u => u.username.toLowerCase() === username.toLowerCase());
+    if (usernameExists) { err.innerText = 'Username sudah dipakai.'; err.classList.remove('hidden'); return; }
+
+    const passHash = await hashPassword(pwd);
+    const key = username.toLowerCase().replace(/\s+/g, '');
+    users[key] = {
+        username: username, email: email, passHash: passHash,
+        city: '', joined: formatDate(new Date()),
+        bio: 'Pengguna baru Saling Sapa',
+        isFounder: false, verified: false,
+        followers: 0, following: 0,
+        online: true, isBot: false,
+        social: { ig: '', tw: '', fb: '', li: '' }
+    };
+    saveUsers();
+    followData[key] = { followers: [], following: [] };
+    saveFollow();
+    notifications.unshift({ id: Date.now(), type: 'newuser', text: `🎉 ${username} baru bergabung di Saling Sapa!`, time: 'Baru saja', unread: true });
+    saveNotifs();
+    err.classList.add('hidden');
+    alert('✅ Pendaftaran berhasil!\n\n📧 Kami telah mengirim notifikasi konfirmasi ke ' + email + '\n\nSilakan login.');
+    switchAuthTab('login');
+    document.getElementById('login-email').value = email;
+    document.getElementById('login-password').value = '';
+}
+
+function formatDate(d) {
+    const bulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    return d.getDate() + ' ' + bulan[d.getMonth()] + ' ' + d.getFullYear();
+}
+
+function initApp() {
+    document.getElementById('settings-name').innerText = currentUser.username;
+    document.getElementById('settings-sub').innerText = '@' + currentUser.key;
+    if (currentUser.isFounder) document.getElementById('founder-menu').classList.remove('hidden');
+    updateDarkToggle();
+    renderFeed();
+    renderNotifs();
+    renderProfile();
+    renderOnlineUsers();
+    checkFounder();
+    updateNavDot();
+    showPage('home');
+    lucide.createIcons();
+}
+
+function logout() {
+    if (confirm('Yakin ingin keluar dari akun?')) {
+        currentUser = null;
+        document.getElementById('login-page').classList.remove('hidden');
+        document.getElementById('main-app').classList.add('hidden');
+        document.getElementById('form-login').reset();
+        document.getElementById('form-register').reset();
+    }
+}
+
+function showPage(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+    const target = document.getElementById('page-' + page);
+    if (target) target.classList.remove('hidden');
+    document.querySelectorAll('.bottom-nav-btn').forEach(b => b.classList.remove('active'));
+    const nav = document.querySelector(`.bottom-nav-btn[data-nav="${page}"]`);
+    if (nav) nav.classList.add('active');
+    if (page === 'profile') renderProfile();
+    if (page === 'notif') renderNotifs();
+    if (page === 'search') renderSuggestedUsers();
+    if (page === 'online-users') renderOnlineUsersList();
+    if (page === 'settings') renderSettings();
+    if (page === 'edit-profile') renderEditProfile();
+    if (page === 'account') renderAccount();
+    if (page === 'verify') renderVerifyPage();
+    if (page === 'verify-users') renderVerifyUsers();
+    if (page === 'manage-users') renderManageUsers();
+    if (page === 'statistics') renderStatistics();
+    window.scrollTo(0, 0);
+    lucide.createIcons();
+}
+
+function renderFeed() {
+    const container = document.getElementById('feed-container');
+    let filtered = posts;
+    if (currentFilter !== 'all') filtered = posts.filter(p => p.platform === currentFilter);
+    if (filtered.length === 0) {
+        container.innerHTML = '<p class="text-center py-8 text-sm" style="opacity:0.7;">Belum ada postingan di platform ini.</p>';
+        return;
+    }
+    const platformIcons = { instagram: '📷', twitter: '🐦', facebook: '📘', linkedin: '💼' };
+    const cardClass = { instagram: 'card-instagram', twitter: 'card-twitter', facebook: 'card-facebook', linkedin: 'card-linkedin' };
+    container.innerHTML = filtered.map(p => {
+        const author = users[p.author];
+        if (!author) return '';
+        let badges = '';
+        if (author.isFounder) badges = '<span class="badge-founder">👑 FOUNDER</span>';
+        else if (author.isBot) badges = '<span class="badge-bot">🤖 BOT</span>';
+        if (author.verified && !author.isBot) badges += ' <i data-lucide="badge-check" class="inline-block w-4 h-4" style="color:#2563EB;"></i>';
+        let ownerActions = '';
+        if (p.author === currentUser.key) {
+            ownerActions = `<div class="flex gap-2 ml-auto"><button onclick="editPost(${p.id})" class="text-xs font-medium px-2 py-1 rounded" style="color:#2563EB; background:rgba(37,99,235,0.15);">✏️ Edit</button><button onclick="deletePost(${p.id})" class="text-xs font-medium px-2 py-1 rounded" style="color:#DC2626; background:rgba(220,38,38,0.15);">🗑 Hapus</button></div>`;
+        }
+        return `<article class="card ${cardClass[p.platform]} p-4 fade-in">
+            <div class="flex items-start gap-3">
+                <div class="w-10 h-10 rounded-full avatar-svg cursor-pointer" onclick="openOtherProfile('${p.author}')"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-1.5 flex-wrap">
+                        <span class="font-bold text-sm clickable-name" onclick="openOtherProfile('${p.author}')">${author.username}</span>
+                        ${badges}
+                        <span class="text-xs" style="opacity:0.7;">${p.time} • ${platformIcons[p.platform]}</span>
+                        ${ownerActions}
+                    </div>
+                    <p class="text-sm mt-2 leading-relaxed">${p.content}</p>
+                    <div class="flex gap-4 text-xs mt-3" style="opacity:0.75;">
+                        <button class="flex items-center gap-1"><i data-lucide="heart" class="w-4 h-4"></i> ${p.likes}</button>
+                        <button class="flex items-center gap-1"><i data-lucide="message-circle" class="w-4 h-4"></i> 0</button>
+                        <button class="flex items-center gap-1"><i data-lucide="share-2" class="w-4 h-4"></i></button>
+                    </div>
+                </div>
+            </div>
+        </article>`;
+    }).join('');
+    lucide.createIcons();
+}
+
+function filterFeed(platform, btn) {
+    currentFilter = platform;
+    document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderFeed();
+}
+
+function openPostModal() {
+    document.getElementById('post-modal').classList.remove('hidden');
+    document.getElementById('post-modal').classList.add('flex');
+}
+function closePostModal() {
+    document.getElementById('post-modal').classList.add('hidden');
+    document.getElementById('post-modal').classList.remove('flex');
+}
+function togglePostPlatform(btn, platform) {
+    postPlatforms[platform] = !postPlatforms[platform];
+    btn.style.opacity = postPlatforms[platform] ? '1' : '0.4';
+}
+function publishPost() {
+    const text = document.getElementById('post-input-modal').value.trim();
+    if (!text) return alert('Tulis sesuatu dulu!');
+    const platforms = Object.keys(postPlatforms).filter(p => postPlatforms[p]);
+    if (platforms.length === 0) return alert('Pilih minimal 1 platform!');
+    platforms.forEach(plat => {
+        posts.unshift({
+            id: Date.now() + Math.random(),
+            author: currentUser.key, platform: plat, content: text,
+            time: 'Baru saja',
+            likes: currentUser.isFounder ? 1000 : 0,
+            isFounder: currentUser.isFounder, isBot: false
+        });
+    });
+    savePosts();
+    notifications.unshift({ id: Date.now(), type: 'newpost', text: `📝 ${currentUser.username} membuat postingan baru`, time: 'Baru saja', unread: true });
+    saveNotifs();
+    document.getElementById('post-input-modal').value = '';
+    closePostModal();
+    renderFeed(); renderNotifs(); updateNavDot();
+}
+
+function editPost(id) {
+    const p = posts.find(x => x.id === id);
+    if (!p) return;
+    editingPostId = id;
+    document.getElementById('edit-post-input').value = p.content;
+    document.getElementById('edit-post-modal').classList.remove('hidden');
+    document.getElementById('edit-post-modal').classList.add('flex');
+}
+function closeEditPost() {
+    document.getElementById('edit-post-modal').classList.add('hidden');
+    document.getElementById('edit-post-modal').classList.remove('flex');
+    editingPostId = null;
+}
+function saveEditedPost() {
+    const newText = document.getElementById('edit-post-input').value.trim();
+    if (!newText) return;
+    const p = posts.find(x => x.id === editingPostId);
+    if (p) { p.content = newText; p.time = 'Baru saja diedit'; savePosts(); }
+    closeEditPost();
+    renderFeed();
+}
+function deletePost(id) {
+    if (!confirm('Hapus postingan ini?')) return;
+    posts = posts.filter(p => p.id !== id);
+    savePosts();
+    renderFeed();
+}
+
+function renderNotifs() {
+    const c = document.getElementById('notif-container');
+    if (notifications.length === 0) {
+        c.innerHTML = '<p class="text-center py-8 text-sm" style="opacity:0.7;">Belum ada notifikasi.</p>';
+        return;
+    }
+    c.innerHTML = notifications.map(n => `<div class="card p-3 flex items-start gap-3">
+        <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style="background:rgba(37,99,235,0.15);"><i data-lucide="bell" class="w-4 h-4" style="color:#2563EB;"></i></div>
+        <div class="flex-1"><p class="text-sm">${n.text}</p><p class="text-xs mt-0.5" style="opacity:0.7;">${n.time}</p></div>
+    </div>`).join('');
+    lucide.createIcons();
+}
+function clearNotifications() {
+    if (confirm('Bersihkan semua notifikasi?')) {
+        notifications = []; saveNotifs(); renderNotifs(); updateNavDot();
+    }
+}
+function updateNavDot() {
+    const dot = document.getElementById('nav-notif-dot');
+    if (notifications.some(n => n.unread)) dot.classList.remove('hidden');
+    else dot.classList.add('hidden');
+}
+
+function renderSuggestedUsers() {
+    const c = document.getElementById('suggested-users');
+    const suggested = Object.keys(users).filter(k => k !== currentUser.key).slice(0, 7);
+    c.innerHTML = suggested.map(k => {
+        const u = users[k];
+        let badge = u.isFounder ? '<span class="badge-founder">👑</span>' : u.isBot ? '<span class="badge-bot">🤖</span>' : '';
+        return `<div class="card p-3 flex items-center gap-3 cursor-pointer" onclick="openOtherProfile('${k}')">
+            <div class="w-10 h-10 rounded-full avatar-svg"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
+            <div class="flex-1"><p class="font-semibold text-sm flex items-center gap-1">${u.username} ${badge}</p><p class="text-xs" style="opacity:0.75;">${u.bio || ''}</p></div>
+        </div>`;
+    }).join('');
+}
+function performSearch() {
+    const q = document.getElementById('search-input').value.toLowerCase().trim();
+    const c = document.getElementById('search-results');
+    if (!q) return;
+    const matchedUsers = Object.keys(users).filter(k => users[k].username.toLowerCase().includes(q) || (users[k].bio || '').toLowerCase().includes(q));
+    const matchedPosts = posts.filter(p => p.content.toLowerCase().includes(q));
+    let html = '';
+    if (matchedUsers.length) {
+        html += '<h3 class="text-xs font-bold uppercase mb-2" style="color:#2563EB;">Pengguna</h3><div class="space-y-2 mb-4">';
+        html += matchedUsers.map(k => `<div class="card p-3 flex items-center gap-3 cursor-pointer" onclick="openOtherProfile('${k}')"><div class="w-9 h-9 rounded-full avatar-svg"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div><span class="font-medium text-sm">${users[k].username}</span></div>`).join('');
+        html += '</div>';
+    }
+    if (matchedPosts.length) {
+        html += '<h3 class="text-xs font-bold uppercase mb-2" style="color:#2563EB;">Postingan</h3><div class="space-y-2">';
+        html += matchedPosts.slice(0, 5).map(p => `<div class="card p-3"><p class="text-xs" style="opacity:0.7;">${users[p.author]?.username || '?'}</p><p class="text-sm">${p.content}</p></div>`).join('');
+        html += '</div>';
+    }
+    if (!html) html = '<p class="text-center py-8 text-sm" style="opacity:0.7;">Tidak ada hasil.</p>';
+    c.innerHTML = html;
+}
+
+function renderProfile() {
+    if (!currentUser) return;
+    document.getElementById('profile-username-header').innerText = '@' + currentUser.key;
+    document.getElementById('profile-name').innerText = currentUser.username;
+    document.getElementById('profile-bio-text').innerText = currentUser.bio || 'Belum ada bio';
+    document.getElementById('profile-city').innerText = currentUser.city || 'Belum diisi';
+    const checkEl = document.getElementById('profile-check');
+    checkEl.innerHTML = currentUser.verified ? '<i data-lucide="badge-check" class="w-5 h-5" style="color:#2563EB;"></i>' : '';
+    const subtitleEl = document.getElementById('profile-subtitle');
+    subtitleEl.style.display = currentUser.isFounder ? 'block' : 'none';
+    const myPosts = posts.filter(p => p.author === currentUser.key);
+    document.getElementById('stat-posts').innerText = myPosts.length;
+    const fd = followData[currentUser.key] || { followers: [], following: [] };
+    document.getElementById('stat-followers').innerText = currentUser.isFounder ? currentUser.followers : fd.followers.length;
+    document.getElementById('stat-following').innerText = currentUser.isFounder ? currentUser.following : fd.following.length;
+    const totalLikes = myPosts.reduce((s, p) => s + (p.likes || 0), 0);
+    document.getElementById('my-likes').innerText = totalLikes;
+    const social = currentUser.social || {};
+    document.getElementById('social-ig-val').innerText = social.ig || 'Belum diisi';
+    document.getElementById('social-tw-val').innerText = social.tw || 'Belum diisi';
+    document.getElementById('social-fb-val').innerText = social.fb || 'Belum diisi';
+    document.getElementById('social-li-val').innerText = social.li || 'Belum diisi';
+    const savedPhoto = localStorage.getItem('ss_photo_' + currentUser.key);
+    const avatarEl = document.getElementById('profile-avatar');
+    if (savedPhoto) avatarEl.innerHTML = '<img src="' + savedPhoto + '" class="w-full h-full object-cover rounded-full">';
+    lucide.createIcons();
+}
+
+function openOtherProfile(key) {
+    if (key === currentUser.key) { showPage('profile'); return; }
+    const u = users[key];
+    if (!u) return;
+    otherProfileKey = key;
+    document.getElementById('other-profile-username-header').innerText = '@' + key;
+    document.getElementById('other-profile-name').innerText = u.username;
+    document.getElementById('other-profile-bio').innerText = u.bio || 'Belum ada bio';
+    document.getElementById('other-profile-city').innerText = u.city || 'Belum diisi';
+    const checkEl = document.getElementById('other-profile-check');
+    checkEl.innerHTML = u.verified && !u.isBot ? '<i data-lucide="badge-check" class="w-5 h-5" style="color:#2563EB;"></i>' : '';
+    const subtitleEl = document.getElementById('other-profile-subtitle');
+    subtitleEl.style.display = u.isFounder ? 'block' : 'none';
+    const otherPosts = posts.filter(p => p.author === key);
+    document.getElementById('other-stat-posts').innerText = otherPosts.length;
+    const fd = followData[key] || { followers: [], following: [] };
+    document.getElementById('other-stat-followers').innerText = u.isFounder ? u.followers : fd.followers.length;
+    document.getElementById('other-stat-following').innerText = u.isFounder ? u.following : fd.following.length;
+    const social = u.social || {};
+    document.getElementById('other-social-ig-val').innerText = social.ig || 'Belum diisi';
+    document.getElementById('other-social-tw-val').innerText = social.tw || 'Belum diisi';
+    document.getElementById('other-social-fb-val').innerText = social.fb || 'Belum diisi';
+    document.getElementById('other-social-li-val').innerText = social.li || 'Belum diisi';
+    const savedPhoto = localStorage.getItem('ss_photo_' + key);
+    const avatarEl = document.getElementById('other-profile-avatar');
+    if (savedPhoto) avatarEl.innerHTML = '<img src="' + savedPhoto + '" class="w-full h-full object-cover rounded-full">';
+    // Follow button
+    const btn = document.getElementById('follow-btn');
+    const isFollowing = (followData[currentUser.key]?.following || []).includes(key);
+    if (isFollowing) { btn.classList.add('following'); btn.innerText = 'Mengikuti'; }
+    else { btn.classList.remove('following'); btn.innerText = 'Follow'; }
+    showPage('other-profile');
+}
+
+function backFromOtherProfile() {
+    showPage('home');
+}
+
+function toggleFollow() {
+    if (!otherProfileKey) return;
+    if (!followData[currentUser.key]) followData[currentUser.key] = { followers: [], following: [] };
+    if (!followData[otherProfileKey]) followData[otherProfileKey] = { followers: [], following: [] };
+    const myFollowing = followData[currentUser.key].following;
+    const otherFollowers = followData[otherProfileKey].followers;
+    const idx = myFollowing.indexOf(otherProfileKey);
+    const btn = document.getElementById('follow-btn');
+    if (idx === -1) {
+        myFollowing.push(otherProfileKey);
+        if (!otherFollowers.includes(currentUser.key)) otherFollowers.push(currentUser.key);
+        btn.classList.add('following'); btn.innerText = 'Mengikuti';
+    } else {
+        myFollowing.splice(idx, 1);
+        const fidx = otherFollowers.indexOf(currentUser.key);
+        if (fidx > -1) otherFollowers.splice(fidx, 1);
+        btn.classList.remove('following'); btn.innerText = 'Follow';
+    }
+    saveFollow();
+    document.getElementById('other-stat-followers').innerText = users[otherProfileKey].isFounder ? users[otherProfileKey].followers : otherFollowers.length;
+}
+
+function openSocial(platform) {
+    const val = (currentUser.social || {})[platform];
+    if (!val) return alert('Anda belum mengisi ' + platform.toUpperCase() + '.\n\nIsi lewat Edit Profil.');
+    const urls = { ig: 'https://instagram.com/', tw: 'https://twitter.com/', fb: 'https://facebook.com/', li: 'https://linkedin.com/in/' };
+    window.open(urls[platform] + val.replace('@', ''), '_blank');
+}
+function openOtherSocial(platform) {
+    if (!otherProfileKey) return;
+    const val = (users[otherProfileKey].social || {})[platform];
+    if (!val) return alert('User ini belum mengisi ' + platform.toUpperCase() + '.');
+    const urls = { ig: 'https://instagram.com/', tw: 'https://twitter.com/', fb: 'https://facebook.com/', li: 'https://linkedin.com/in/' };
+    window.open(urls[platform] + val.replace('@', ''), '_blank');
+}
+
+function openFollowList(context, type) {
+    followListContext = context;
+    followListType = type;
+    let userKey;
+    let username;
+    if (context === 'my') { userKey = currentUser.key; username = currentUser.username; }
+    else { userKey = otherProfileKey; username = users[otherProfileKey].username; }
+    const fd = followData[userKey] || { followers: [], following: [] };
+    let list;
+    if (users[userKey].isFounder) {
+        const allKeys = Object.keys(users).filter(k => k !== userKey && !users[k].isBot).slice(0, 8);
+        list = type === 'followers' ? allKeys : allKeys.slice(0, 3);
+    } else {
+        list = type === 'followers' ? fd.followers : fd.following;
+    }
+    document.getElementById('follow-list-title').innerText = (type === 'followers' ? 'Pengikut ' : 'Mengikuti ') + username;
+    const c = document.getElementById('follow-list-content');
+    if (!list || list.length === 0) {
+        c.innerHTML = '<p class="text-center py-8 text-sm" style="opacity:0.7;">Belum ada ' + (type === 'followers' ? 'pengikut' : 'yang diikuti') + '.</p>';
+    } else {
+        c.innerHTML = list.map(k => {
+            if (!users[k]) return '';
+            const u = users[k];
+            let badge = u.isFounder ? '<span class="badge-founder">👑</span>' : u.isBot ? '<span class="badge-bot">🤖</span>' : '';
+            return `<div class="card p-3 flex items-center gap-3 cursor-pointer" onclick="openOtherProfile('${k}')">
+                <div class="w-11 h-11 rounded-full avatar-svg"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
+                <div class="flex-1"><p class="font-semibold text-sm flex items-center gap-1">${u.username} ${badge}</p><p class="text-xs" style="opacity:0.75;">${u.bio || ''}</p></div>
+            </div>`;
+        }).join('');
+    }
+    showPage('follow-list');
+    lucide.createIcons();
+}
+function backFromFollowList() {
+    if (followListContext === 'my') showPage('profile');
+    else showPage('other-profile');
+}
+
+function switchProfileTab(which, tab, el) {
+    const parent = el.parentElement;
+    parent.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    ['foto','statistik','video'].forEach(t => document.getElementById('tab-' + which + '-' + t).classList.add('hidden'));
+    document.getElementById('tab-' + which + '-' + tab).classList.remove('hidden');
+    lucide.createIcons();
+}
+
+function shareProfile() {
+    const text = 'Yuk gabung Saling Sapa! Cek profil saya: @' + currentUser.key;
+    if (navigator.share) navigator.share({ title: 'Saling Sapa', text });
+    else alert(text);
+}
+
+function renderEditProfile() {
+    document.getElementById('edit-name').value = currentUser.username;
+    document.getElementById('edit-bio').value = currentUser.bio || '';
+    document.getElementById('edit-city').value = currentUser.city || '';
+    const s = currentUser.social || {};
+    document.getElementById('edit-ig').value = s.ig || '';
+    document.getElementById('edit-tw').value = s.tw || '';
+    document.getElementById('edit-fb').value = s.fb || '';
+    document.getElementById('edit-li').value = s.li || '';
+}
+function handlePhotoUpload(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            localStorage.setItem('ss_photo_' + currentUser.key, ev.target.result);
+            document.getElementById('edit-avatar').innerHTML = `<img src="${ev.target.result}" class="w-full h-full object-cover rounded-full">`;
+        };
+        reader.readAsDataURL(file);
+    }
+}
+function saveProfile() {
+    currentUser.username = document.getElementById('edit-name').value;
+    currentUser.bio = document.getElementById('edit-bio').value;
+    currentUser.city = document.getElementById('edit-city').value;
+    currentUser.social = {
+        ig: document.getElementById('edit-ig').value,
+        tw: document.getElementById('edit-tw').value,
+        fb: document.getElementById('edit-fb').value,
+        li: document.getElementById('edit-li').value
+    };
+    users[currentUser.key] = currentUser;
+    saveUsers();
+    alert('Profil berhasil disimpan!');
+    showPage('profile');
+}
+
+function renderAccount() {
+    document.getElementById('acc-username').innerText = '@' + currentUser.key;
+    document.getElementById('acc-email').innerText = currentUser.email || '-';
+    document.getElementById('acc-city').innerText = currentUser.city || '-';
+    document.getElementById('acc-joined').innerText = currentUser.joined || '-';
+}
+
+function renderVerifyPage() {
+    const box = document.getElementById('verify-status-box');
+    const u = currentUser;
+    if (u.isFounder || u.verified) {
+        box.style.background = '#DCFCE7'; box.style.color = '#16A34A';
+        box.innerText = '✅ Akun Anda sudah terverifikasi!';
+    } else if (verifThreads[u.key] && verifThreads[u.key].status === 'pending') {
+        box.style.background = '#FEF3C7'; box.style.color = '#D97706';
+        box.innerText = '⏳ Pengajuan Anda sedang ditinjau.';
+    } else if (verifThreads[u.key] && verifThreads[u.key].status === 'rejected') {
+        box.style.background = '#FEE2E2'; box.style.color = '#DC2626';
+        box.innerText = '❌ Pengajuan belum disetujui.';
+    } else {
+        box.style.background = 'rgba(37,99,235,0.15)'; box.style.color = '#2563EB';
+        box.innerText = '🔵 Anda belum mengajukan verifikasi.';
+    }
+    const thread = verifThreads[u.key];
+    if (thread && thread.messages && thread.messages.length) {
+        document.getElementById('verify-thread').classList.remove('hidden');
+        document.getElementById('verify-thread-content').innerHTML = thread.messages.map(m => `
+            <div class="p-2.5 rounded-xl" style="background:${m.from === 'founder' ? 'rgba(245,158,11,0.2)' : 'rgba(37,99,235,0.15)'}; margin-left:${m.from === 'founder' ? '16px' : '0'}; margin-right:${m.from === 'founder' ? '0' : '16px'};">
+                <p class="text-xs font-bold" style="color:${m.from === 'founder' ? '#D97706' : '#2563EB'};">${m.from === 'founder' ? '👑 Founder' : '👤 Anda'}</p>
+                <p class="text-sm">${m.text}</p>
+                <p class="text-xs mt-1" style="opacity:0.7;">${m.time}</p>
+            </div>
+        `).join('');
+    }
+}
+function submitVerification() {
+    const msg = document.getElementById('verify-message').value.trim();
+    if (!msg) return alert('Tulis alasan pengajuan.');
+    verifThreads[currentUser.key] = { user: currentUser.key, username: currentUser.username, status: 'pending', messages: [{ from: 'user', text: msg, time: 'Baru saja' }] };
+    saveVerif();
+    alert('Pengajuan terkirim!');
+    renderVerifyPage(); checkFounder();
+}
+function checkFounder() {
+    if (!currentUser || !currentUser.isFounder) return;
+    const pending = Object.values(verifThreads).filter(t => t.status === 'pending').length;
+    document.getElementById('pending-verify-count').innerText = pending;
+}
+function renderVerifyUsers() {
+    const c = document.getElementById('verify-users-list');
+    const pending = Object.keys(verifThreads).filter(k => verifThreads[k].status === 'pending');
+    if (pending.length === 0) {
+        c.innerHTML = '<p class="text-center py-8 text-sm" style="opacity:0.7;">Tidak ada pengajuan.</p>';
+        return;
+    }
+    c.innerHTML = pending.map(k => {
+        const t = verifThreads[k];
+        return `<div class="card p-4">
+            <p class="font-bold text-sm">${t.username} (@${k})</p>
+            <div class="p-3 rounded-xl text-sm my-3" style="background:rgba(37,99,235,0.1);">
+                ${t.messages.map(m => `<p class="text-xs mb-1"><b>${m.from === 'founder' ? '👑' : '👤'}:</b> ${m.text}</p>`).join('')}
+            </div>
+            <div class="flex gap-2">
+                <button onclick="approveVerify('${k}')" class="flex-1 py-2 rounded-xl text-sm font-semibold text-white" style="background:#16A34A;">✅ Setujui</button>
+                <button onclick="rejectVerify('${k}')" class="flex-1 py-2 rounded-xl text-sm font-semibold text-white" style="background:#DC2626;">❌ Tolak</button>
+                <button onclick="replyVerify('${k}')" class="flex-1 py-2 rounded-xl text-sm font-semibold text-white" style="background:#2563EB;">💬 Balas</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+function approveVerify(key) {
+    users[key].verified = true;
+    verifThreads[key].status = 'approved';
+    verifThreads[key].messages.push({ from: 'founder', text: '✅ Selamat! Akun Anda telah diverifikasi.', time: 'Baru saja' });
+    saveUsers(); saveVerif();
+    notifications.unshift({ id: Date.now(), type: 'verify', text: `✅ @${key} telah diverifikasi`, time: 'Baru saja', unread: true });
+    saveNotifs();
+    renderVerifyUsers(); checkFounder(); updateNavDot();
+    alert('User ' + key + ' berhasil diverifikasi!');
+}
+function rejectVerify(key) {
+    const reason = prompt('Alasan penolakan:');
+    if (!reason) return;
+    verifThreads[key].status = 'rejected';
+    verifThreads[key].messages.push({ from: 'founder', text: '❌ ' + reason, time: 'Baru saja' });
+    saveVerif(); renderVerifyUsers(); checkFounder();
+}
+function replyVerify(key) {
+    const msg = prompt('Balas ke user:');
+    if (!msg) return;
+    verifThreads[key].messages.push({ from: 'founder', text: '💬 ' + msg, time: 'Baru saja' });
+    saveVerif(); renderVerifyUsers();
+    alert('Balasan terkirim.');
+}
+function renderManageUsers() {
+    const c = document.getElementById('manage-users-list');
+    const realUsers = Object.keys(users).filter(k => !users[k].isBot);
+    c.innerHTML = realUsers.map(k => {
+        const u = users[k];
+        let badge = u.isFounder ? '<span class="badge-founder">👑</span>' : u.verified ? '✅' : '';
+        return `<div class="card p-4">
+            <div class="flex items-center gap-3 mb-2">
+                <div class="w-10 h-10 rounded-full avatar-svg"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
+                <div class="flex-1">
+                    <p class="font-bold text-sm flex items-center gap-1">${u.username} ${badge}</p>
+                    <p class="text-xs" style="opacity:0.7;">@${k} • ${u.email}</p>
+                    <p class="text-xs" style="opacity:0.7;">Bergabung: ${u.joined}</p>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="openOtherProfile('${k}')" class="flex-1 py-1.5 rounded-lg text-xs font-semibold" style="background:rgba(37,99,235,0.15); color:#2563EB;">👁 Lihat</button>
+                <button onclick="msgUser('${k}')" class="flex-1 py-1.5 rounded-lg text-xs font-semibold" style="background:rgba(245,158,11,0.15); color:#D97706;">💬 Pesan</button>
+                <button onclick="deleteUser('${k}')" class="flex-1 py-1.5 rounded-lg text-xs font-semibold" style="background:rgba(220,38,38,0.15); color:#DC2626;">🗑 Hapus</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+function msgUser(key) {
+    msgTarget = key;
+    document.getElementById('msg-modal').classList.remove('hidden');
+    document.getElementById('msg-modal').classList.add('flex');
+}
+function closeMsgModal() {
+    document.getElementById('msg-modal').classList.add('hidden');
+    document.getElementById('msg-modal').classList.remove('flex');
+    document.getElementById('msg-input').value = '';
+}
+function sendFounderMessage() {
+    const txt = document.getElementById('msg-input').value.trim();
+    if (!txt) return;
+    notifications.unshift({ id: Date.now(), type: 'founder', text: `📩 Pesan dari Founder ke @${msgTarget}: ${txt}`, time: 'Baru saja', unread: true });
+    saveNotifs(); renderNotifs(); updateNavDot();
+    closeMsgModal();
+    alert('Pesan terkirim ke @' + msgTarget);
+}
+function deleteUser(key) {
+    if (key === currentUser.key) return alert('Tidak bisa hapus akun sendiri!');
+    if (!confirm('Hapus user @' + key + '?')) return;
+    delete users[key];
+    posts = posts.filter(p => p.author !== key);
+    saveUsers(); savePosts(); renderManageUsers();
+}
+
+function renderStatistics() {
+    const realUsers = Object.keys(users).filter(k => !users[k].isBot).length;
+    const botUsers = Object.keys(users).filter(k => users[k].isBot).length;
+    const verifiedCount = Object.values(users).filter(u => u.verified && !u.isBot).length;
+    const notifCount = notifications.length;
+    const tagCount = {};
+    posts.forEach(p => { const tags = p.content.match(/#\w+/g) || []; tags.forEach(t => tagCount[t] = (tagCount[t] || 0) + 1); });
+    const topTags = Object.entries(tagCount).sort((a,b) => b[1]-a[1]).slice(0, 5);
+    const postByUser = {};
+    posts.forEach(p => postByUser[p.author] = (postByUser[p.author] || 0) + 1);
+    const topUsers = Object.entries(postByUser).sort((a,b) => b[1]-a[1]).slice(0, 5);
+    document.getElementById('statistics-content').innerHTML = `
+        <div class="grid grid-cols-2 gap-3 mb-4">
+            <div class="card p-4 cursor-pointer" onclick="statDetail('userAsli')"><p class="text-xs font-semibold" style="color:#2563EB;">👥 USER ASLI</p><p class="text-2xl font-bold">${realUsers}</p></div>
+            <div class="card p-4 cursor-pointer" onclick="statDetail('bot')"><p class="text-xs font-semibold" style="color:#2563EB;">🤖 BOT</p><p class="text-2xl font-bold">${botUsers}</p></div>
+            <div class="card p-4 cursor-pointer" onclick="statDetail('posts')"><p class="text-xs font-semibold" style="color:#2563EB;">📝 POSTINGAN</p><p class="text-2xl font-bold">${posts.length}</p></div>
+            <div class="card p-4 cursor-pointer" onclick="statDetail('verified')"><p class="text-xs font-semibold" style="color:#2563EB;">✅ VERIFIED</p><p class="text-2xl font-bold">${verifiedCount}</p></div>
+            <div class="card p-4 cursor-pointer col-span-2" onclick="statDetail('notif')"><p class="text-xs font-semibold" style="color:#2563EB;">🔔 NOTIFIKASI</p><p class="text-2xl font-bold">${notifCount}</p></div>
+        </div>
+        <div class="card p-4 mb-4">
+            <h3 class="font-bold text-sm mb-3">📊 Aktivitas 7 Hari Terakhir</h3>
+            <div class="flex items-end justify-between gap-2 h-32">
+                ${[3,5,4,8,6,9,7].map((v,i) => `<div class="flex-1 flex flex-col items-center gap-1"><div class="w-full rounded-t" style="height:${v*10}%; background: linear-gradient(180deg, #60A5FA, #3B82F6);"></div><span class="text-[10px]" style="opacity:0.75;">${['Sen','Sel','Rab','Kam','Jum','Sab','Min'][i]}</span></div>`).join('')}
+            </div>
+        </div>
+        <div class="card p-4 mb-4">
+            <h3 class="font-bold text-sm mb-3">🏆 Top User</h3>
+            <div class="space-y-2">
+                ${topUsers.length ? topUsers.map(([k, c]) => `<div class="flex items-center gap-2 p-2 rounded-lg cursor-pointer" onclick="openOtherProfile('${k}')"><span class="font-bold text-sm flex-1">${users[k]?.username || k}</span><span class="text-xs px-2 py-0.5 rounded-full" style="background:rgba(37,99,235,0.15);">${c} postingan</span></div>`).join('') : '<p class="text-xs" style="opacity:0.7;">Belum ada data.</p>'}
+            </div>
+        </div>
+        <div class="card p-4">
+            <h3 class="font-bold text-sm mb-3"># Top Tagar</h3>
+            <div class="space-y-2">
+                ${topTags.length ? topTags.map(([t, c]) => `<div class="flex items-center gap-2"><span class="font-bold text-sm flex-1">${t}</span><span class="text-xs px-2 py-0.5 rounded-full" style="background:rgba(37,99,235,0.15);">${c}x</span></div>`).join('') : '<p class="text-xs" style="opacity:0.7;">Belum ada tagar.</p>'}
+            </div>
+        </div>
+    `;
+}
+function statDetail(type) {
+    let detail = '';
+    if (type === 'userAsli') detail = Object.keys(users).filter(k => !users[k].isBot).map(k => `• @${k} (${users[k].username})`).join('\n');
+    else if (type === 'bot') detail = Object.keys(users).filter(k => users[k].isBot).map(k => `• ${users[k].username}`).join('\n');
+    else if (type === 'posts') detail = `Total ${posts.length} postingan.`;
+    else if (type === 'verified') detail = Object.values(users).filter(u => u.verified).map(u => `✅ ${u.username}`).join('\n');
+    else if (type === 'notif') detail = `Total ${notifications.length} notifikasi.`;
+    alert(detail);
+}
+
+function renderOnlineUsers() {
+    const onlineCount = Object.values(users).filter(u => u.online).length;
+    document.getElementById('online-count').innerText = onlineCount;
+}
+function renderOnlineUsersList() {
+    const c = document.getElementById('online-users-list');
+    const online = Object.keys(users).filter(k => users[k].online);
+    c.innerHTML = online.map(k => {
+        const u = users[k];
+        let badge = u.isFounder ? '<span class="badge-founder">👑</span>' : u.isBot ? '<span class="badge-bot">🤖</span>' : '';
+        return `<div class="card p-3 flex items-center gap-3 cursor-pointer" onclick="openOtherProfile('${k}')">
+            <div class="relative"><div class="w-11 h-11 rounded-full avatar-svg"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div><span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 rounded-full" style="border-color:white;"></span></div>
+            <div class="flex-1"><p class="font-semibold text-sm flex items-center gap-1">${u.username} ${badge}</p><p class="text-xs" style="color:#16A34A;">Online</p></div>
+        </div>`;
+    }).join('');
+    lucide.createIcons();
+}
+
+function renderSettings() {
+    document.getElementById('settings-name').innerText = currentUser.username;
+    document.getElementById('settings-sub').innerText = '@' + currentUser.key;
+}
+function toggleDark() {
+    document.documentElement.classList.toggle('dark');
+    document.documentElement.classList.toggle('light');
+    localStorage.setItem('ss_dark', document.documentElement.classList.contains('dark'));
+    updateDarkToggle();
+}
+function updateDarkToggle() {
+    const t = document.getElementById('dark-toggle');
+    if (!t) return;
+    if (document.documentElement.classList.contains('dark')) { t.classList.add('toggle-on'); t.classList.remove('toggle-off'); }
+    else { t.classList.remove('toggle-on'); t.classList.add('toggle-off'); }
+}
+
+lucide.createIcons();
+</script>
+</body>
+</html>
